@@ -1,0 +1,31 @@
+.fullpage {
+    width: 100vw;
+    height: 100vh;
+}
+.CreatorDiv {
+    /* background-color: blueviolet; */
+    width: 80%;
+    height: 80%;
+    border-style: dashed;
+    border-color: #751515;
+    border-width: 1px;
+}
+.CreatorDiv svg{
+    position:relative;
+}
+.CreatorDiv #absolute {
+    position: absolute; 
+    top: 1px;
+    width: 80%; 
+    height: 80%;
+    border-width: 1px; 
+}
+.CreatorDiv #absolute svg{
+    position: absolute;
+}
+.CreatorDiv .adjustor{
+    position: absolute;
+}
+.CreatorDiv .adjustor svg{
+    position: absolute;
+}
