@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   get "/hello", to: "application#hello_world"
+  post "/saveFile", to: "save_file#create"
   get '*path',
       to: 'fallback#index',
       constraints: ->(req) { !req.xhr? && req.format.html? }

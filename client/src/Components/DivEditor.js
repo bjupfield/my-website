@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import IntepretFile from "../Functions/InterpretFile";
 import '../Style/DivEditor.css';
+import DownloadFileButton from "./DownloadFileButton";
 function DivEditor(){
     const [mouseDownPos, setMouseDownPos] = useState([]);
     const [clientBorder, setClientBorder] = useState([]);
@@ -8,6 +10,9 @@ function DivEditor(){
     const [points, setPoints] = useState([])
     const [pointId, setPointId] = useState(null);
     const [viewBoxStuff, setViewBoxStuff] = useState([100, 100]);
+    const [svgName, setSvgName] = useState("");
+    const [svgColor, setSvgColor] = useState("");
+    const [file, setFile] = useState(new File([], ""));
     const observer = useRef(null)
     function resizePathTrue(path, x, y){
         const test = path.split("L");
@@ -285,6 +290,40 @@ function DivEditor(){
         setClientBorder([client.width, client.height, client.x, client.y]);
         setPointId(c.id)
     }
+    function onButtonClick(e){
+        onUploadSvg();
+    }
+    function onUploadSvg(){
+        const e = new File([`.${svgName}{
+    viewbox: "0, 0, ${viewBoxStuff[0]}, ${viewBoxStuff[1]}"
+        }
+.${svgName} path{
+        d: path("${pathTrue}");
+        fill: ${svgColor};
+    }`], `${svgName}.css`, {
+            type: "text/css"
+        })
+        e.arrayBuffer()
+        .then(r=>{
+            const view = new Uint8Array(r)
+            fetch(`http://localhost:3000/saveFile`,{
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify({
+                    file_data: view,
+                    file_name: e.name,
+                    file_mime: e.type
+                })
+            })
+            .then(r=>r.json())
+            .then(r=>{
+                const z = IntepretFile(r)
+                setFile(z)
+            })
+        })
+    }
     return <div className="fullpage" onMouseMove={(e)=>onMouseMoveCall(e)} onMouseUp={()=>onMouseUpCall()}>
         <div className="CreatorDiv">
             <svg viewBox={`0, 0, ${viewBoxStuff[0]}, ${viewBoxStuff[1]}`}>
@@ -305,6 +344,11 @@ function DivEditor(){
                 onMouseDown={(e)=>onMouseDownAdjustor(e)} ><svg viewBox="0, 0, 10, 10"><circle cx={5} cy={5} r={5} fill="red"></circle></svg></div>
             })}
         </div>
+        <input style={{borderWidth: "0px", borderRadius: "3px"}} value={svgName} onChange={e=>setSvgName(e.target.value)}></input>
+        <div style={{color: "red", borderStyle: "solid", borderWidth: "2px", borderColor: "purple", cursor: "pointer"}} onClick={e=>onButtonClick(e)} >
+            Save Div
+        </div>
+        <DownloadFileButton file={file}></DownloadFileButton>
     </div>
 }
 export default DivEditor;
