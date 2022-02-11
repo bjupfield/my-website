@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import IntepretFile from "../Functions/InterpretFile";
 import '../Style/DivEditor.css';
+import '../Style/Header.css';
 import DownloadFileButton from "./DownloadFileButton";
+import Header from "./Header";
+import SideBar from "./SideBar";
 function DivEditor(){
     const [mouseDownPos, setMouseDownPos] = useState([]);
     const [clientBorder, setClientBorder] = useState([]);
@@ -308,6 +311,7 @@ function DivEditor(){
             const view = new Uint8Array(r)
             fetch(`http://localhost:3000/saveFile`,{
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type" : "application/json"
                 },
@@ -322,9 +326,13 @@ function DivEditor(){
                 const z = IntepretFile(r)
                 setFile(z)
             })
+            .catch(r=>r)
+            .then(r=>console.log(r))
         })
     }
     return <div className="fullpage" onMouseMove={(e)=>onMouseMoveCall(e)} onMouseUp={()=>onMouseUpCall()}>
+        <Header CurrentPlace={"Creator"}></Header>
+        <SideBar sideBarList={[["Creator Tutorial", "/creator/tutorial"],["Svg Creation", "/creator"], ["My Account", "/creator/account"], ["Browse Creations", "/creator/browse"]]} page={"/creator"}></SideBar>
         <div className="CreatorDiv">
             <svg viewBox={`0, 0, ${viewBoxStuff[0]}, ${viewBoxStuff[1]}`}>
                 <path  d={pathTrue}></path>
@@ -340,15 +348,17 @@ function DivEditor(){
                     return <div className="adjustor" id={`${ind}`} style={{position:"absolute", top:`${parseFloat(f[1])}px`, left:`${parseFloat(f[0])}px`, height:"10px", width:"10px"}}
                     onMouseDown={(e)=>onMouseDownAdjustor(e)} ><svg viewBox="0, 0, 10, 10"><circle cx={5} cy={5} r={5} fill="red"></circle></svg></div>
                 }
-                return <div className="adjustor" id={`${ind}`} style={{position:"absolute", top:`${parseFloat(f[2]) + 1}px`, left:`${parseFloat(f[1]) + 1}px`, height:"10px", width:"10px"}}
+                return <div className="adjustor" id={`${ind}`} style={{position:"absolute", top:`${parseFloat(f[2]) + 36}px`, left:`${parseFloat(f[1]) + 67}px`, height:"10px", width:"10px"}}
                 onMouseDown={(e)=>onMouseDownAdjustor(e)} ><svg viewBox="0, 0, 10, 10"><circle cx={5} cy={5} r={5} fill="red"></circle></svg></div>
             })}
         </div>
-        <input style={{borderWidth: "0px", borderRadius: "3px"}} value={svgName} onChange={e=>setSvgName(e.target.value)}></input>
-        <div style={{color: "red", borderStyle: "solid", borderWidth: "2px", borderColor: "purple", cursor: "pointer"}} onClick={e=>onButtonClick(e)} >
-            Save Div
+        <div className="addMargin">
+            <input style={{borderWidth: "0px", borderRadius: "3px"}} value={svgName} onChange={e=>setSvgName(e.target.value)}></input>
+            <div style={{color: "red", borderStyle: "solid", borderWidth: "2px", borderColor: "purple", cursor: "pointer"}} onClick={e=>onButtonClick(e)} >
+                Save Div
+            </div>
+            <DownloadFileButton file={file}></DownloadFileButton>
         </div>
-        <DownloadFileButton file={file}></DownloadFileButton>
     </div>
 }
 export default DivEditor;

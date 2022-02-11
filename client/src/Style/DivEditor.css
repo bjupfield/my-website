@@ -6,6 +6,7 @@
     /* background-color: blueviolet; */
     width: 80%;
     height: 80%;
+    margin-left: 70px;
     border-style: dashed;
     border-color: #751515;
     border-width: 1px;
@@ -15,7 +16,7 @@
 }
 .CreatorDiv #absolute {
     position: absolute; 
-    top: 1px;
+    top: 41px;
     width: 80%; 
     height: 80%;
     border-width: 1px; 
@@ -28,4 +29,7 @@
 }
 .CreatorDiv .adjustor svg{
     position: absolute;
+}
+.addMargin {
+    margin-left: 70px;
 }

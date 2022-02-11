@@ -1,0 +1,9 @@
+.sidebar{
+    position: absolute;
+    top: 40px;
+    width: 70px;
+    height: calc(100vh - 40px);
+    background: darkgrey;
+    float: left;
+    box-shadow: inset 0px 0px 10px 0px pink;
+}

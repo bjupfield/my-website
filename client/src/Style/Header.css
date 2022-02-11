@@ -1,0 +1,28 @@
+.Header{
+    width: "max";
+    height: "40px"; 
+    background-color: "grey";
+    box-shadow: "#s42da63" inset;
+}
+.carrion{
+    width: 50px;
+    height: 0px;
+}
+.carrion select{
+    position: relative;
+    width: 100%;
+    border: 0;
+    background: 0%;
+    outline: 0;
+    border-color: transparent;
+    box-shadow: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-overflow: ellipsis;
+}
+.carrion select option{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: grey;
+    color: purple;
+}
