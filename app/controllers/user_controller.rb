@@ -14,6 +14,13 @@ class UserController < ApplicationController
             render json: { error: "User Invalid"}, status: :unauthorized
         end
     end
+    def checkedLoggedIn
+        if session[:user_id]
+            render json: true, status: 200
+        else
+            render json: false, status: :unauthorized
+        end
+    end
     private
     def user_params
         params.permit(:username, :password, :password_confirmation)

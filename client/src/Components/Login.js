@@ -1,7 +1,7 @@
 import {useState } from "react";
 import LoginBar from "./LoginBar";
 import {Navigate} from "react-router-dom";
-function Login({ afterloginpath = "/home" }){
+function Login({ afterloginpath = "/homepage" }){
     const [intro, setIntro] = useState("Plz Enter Password")
     const [navigateNow, setNavigateNow] = useState(false)
     const [logins, setLogins] = useState("")

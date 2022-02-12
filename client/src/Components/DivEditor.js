@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import IntepretFile from "../Functions/InterpretFile";
 import '../Style/DivEditor.css';
 import '../Style/Header.css';
+import CreatorHeaders from "./CreatorHeaders";
 import DownloadFileButton from "./DownloadFileButton";
 import Header from "./Header";
 import SideBar from "./SideBar";
-function DivEditor(){
+function DivEditor({}){
     const [mouseDownPos, setMouseDownPos] = useState([]);
     const [clientBorder, setClientBorder] = useState([]);
     const [pathD, setPathD] = useState("");
@@ -331,8 +332,7 @@ function DivEditor(){
         })
     }
     return <div className="fullpage" onMouseMove={(e)=>onMouseMoveCall(e)} onMouseUp={()=>onMouseUpCall()}>
-        <Header CurrentPlace={"Creator"}></Header>
-        <SideBar sideBarList={[["Creator Tutorial", "/creator/tutorial"],["Svg Creation", "/creator"], ["My Account", "/creator/account"], ["Browse Creations", "/creator/browse"]]} page={"/creator"}></SideBar>
+        <CreatorHeaders page={"/creator"}></CreatorHeaders>
         <div className="CreatorDiv">
             <svg viewBox={`0, 0, ${viewBoxStuff[0]}, ${viewBoxStuff[1]}`}>
                 <path  d={pathTrue}></path>

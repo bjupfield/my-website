@@ -5,6 +5,7 @@ class CreateSaveFiles < ActiveRecord::Migration[7.0]
       t.string :file_name
       t.string :file_mime
       t.integer :user_id
+      t.boolean :share
       t.timestamps
     end
   end

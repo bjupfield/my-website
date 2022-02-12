@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2022_02_10_203733) do
     t.string "file_name"
     t.string "file_mime"
     t.integer "user_id"
+    t.boolean "share"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
