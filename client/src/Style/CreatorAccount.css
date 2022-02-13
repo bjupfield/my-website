@@ -1,0 +1,5 @@
+.overflowsetter {
+    width: calc(100vw);
+    height: calc(100vh);
+    overflow-y: auto;
+}

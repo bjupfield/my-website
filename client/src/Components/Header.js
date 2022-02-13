@@ -12,7 +12,7 @@ function Header({CurrentPlace}){
             setDoNavigator(selected)
         }
     }
-    return doNavigator !== "" ? <Navigate to={`/${doNavigator}`}/> : <div style={{width: "max", height: "40px", backgroundColor: "grey", boxShadow: "0px 0px  10px 0px pink inset"}}>
+    return doNavigator !== "" ? <Navigate to={`/${doNavigator}`}/> : <div className="Header">
         <div className="carrion" onChange={e=>selectChanger(e.target.value)}>
             <select>
                 <option>{CurrentPlace}</option>

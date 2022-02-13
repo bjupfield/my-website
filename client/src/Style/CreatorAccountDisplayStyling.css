@@ -6,6 +6,37 @@
     margin-top: 10px;
     border-radius: 20px;
 }
+.likeButton {
+    float: right;
+    margin-right: 20%;
+    font-size: 30px;
+}
+.likedHeart {
+    cursor: pointer;
+    float: right;
+    font-size: 30px;
+    margin-right: 1%;
+    color: red;
+}
+.likeHeart {
+    float: right;
+    font-size: 30px;
+    margin-right: 1%;
+}
+.browseHeart {
+    cursor: pointer;
+    float: right;
+    font-size: 30px;
+    margin-right: 1%;
+}
+.first {
+    width: calc((100vw - 70px) * .8);
+    background-color: grey;
+    margin-right: calc((100vw -70px) * .1);
+    margin-left: calc((100vw -70px) * .1 + 70px);
+    margin-top: 60px;
+    border-radius: 20px;
+}
 .delete {
     margin-top: 5px;
     margin-left: 5%;

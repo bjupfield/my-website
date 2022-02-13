@@ -1,0 +1,26 @@
+.inCreator{
+    cursor:pointer;
+    border:solid; 
+    border-radius: 5px; 
+    width: 9ch; 
+    text-align: center; 
+    background-color: steelblue; 
+    margin-left: 1%
+}
+.inDisplay{
+    cursor:pointer;
+    border:solid; 
+    border-radius: 5px; 
+    width: 9ch; 
+    text-align: center; 
+    background-color: steelblue; 
+    margin-left: 5%
+}
+.overlay {
+    position: absolute; 
+    top: 40px; 
+    left: 70px; 
+    height: calc(100% - 40px); 
+    width: calc(100% - 70px); 
+    background-color: rgba(0,0,0,0.5)
+}

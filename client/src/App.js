@@ -26,7 +26,7 @@ function App() {
       </Route >
       <Route path="/creator/account" element={<CreatorAccount setLoginPath={setLoginPath}></CreatorAccount>}>
       </Route>
-      <Route path="/creator/browse" element={<CreatorBrowse></CreatorBrowse>}>
+      <Route path="/creator/browse" element={<CreatorBrowse setLoginPath={setLoginPath}></CreatorBrowse>}>
       </Route>
       <Route path="/Creator" element={<DivEditor></DivEditor>}>
       </Route>

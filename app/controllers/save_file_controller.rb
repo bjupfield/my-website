@@ -1,4 +1,8 @@
 class SaveFileController < ApplicationController
+    serialization_scope :view_context
+    # before_action only: :filesAntiUser do
+    #     self.class.serialization_scope :file
+    #   end
     def create
         p params[:file_data]
         p params[:file_name]
@@ -12,7 +16,11 @@ class SaveFileController < ApplicationController
     end
     def filesUser
         files = SaveFile.where(user: User.find(session[:user_id]))
-        render json: files, status: 200
+        render json: files, include: ["likes"], status: 200
+    end
+    def filesAntiUser
+        @files = SaveFile.where.not(user_id: session[:user_id]).where(share: true)
+        render json: @files, user_id: session[:user_id], include: ["user", "likes"], each_serializer: SaveFileAntiUserSerializer,  status: 200
     end
     def shareChange
         b = User.find(session[:user_id]).save_files.find(params[:id])

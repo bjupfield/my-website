@@ -30,10 +30,9 @@ function CreatorAccount({setLoginPath}){
             }
         })
     },[])
-
-    return renderLogin ? <Navigate to="/login"></Navigate> : <div>
+    return renderLogin ? <Navigate to="/login"></Navigate> : <div className="overflowsetter">
         <CreatorHeaders page={"/creator/account"}></CreatorHeaders>
-        {filesList.map(elemen=><CreatorAccountDisplay file={elemen}></CreatorAccountDisplay>)}
+        {filesList.map((elemen, ind)=><CreatorAccountDisplay file={elemen} ind={ind}></CreatorAccountDisplay>)}
     </div>
 }
 export default CreatorAccount;

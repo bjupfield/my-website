@@ -15,11 +15,10 @@ class UserController < ApplicationController
         end
     end
     def checkedLoggedIn
-        if session[:user_id]
-            render json: true, status: 200
-        else
-            render json: false, status: :unauthorized
-        end
+        User.find(session[:user_id])
+        render json: true, status: 200
+    rescue ActiveRecord::RecordNotFound => invalid
+        render json: false, status: :unauthorized
     end
     private
     def user_params

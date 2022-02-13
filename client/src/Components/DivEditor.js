@@ -357,7 +357,7 @@ function DivEditor({}){
             <div style={{color: "red", borderStyle: "solid", borderWidth: "2px", borderColor: "purple", cursor: "pointer"}} onClick={e=>onButtonClick(e)} >
                 Save Div
             </div>
-            <DownloadFileButton file={file}></DownloadFileButton>
+            <DownloadFileButton file={file} inCreator={true}></DownloadFileButton>
         </div>
     </div>
 }
