@@ -29,7 +29,7 @@ function App() {
       </Route>
       <Route path="/creator/browse" element={<CreatorBrowse setLoginPath={setLoginPath} setEditNum={setEditNum}></CreatorBrowse>}>
       </Route>
-      <Route path="/Creator" element={<DivEditor editNum={editNum}></DivEditor>}>
+      <Route path="/Creator" element={<DivEditor editNum={editNum} setEditNum={setEditNum}></DivEditor>}>
       </Route>
       <Route path="/login" element={<Login afterloginpath={whereTo}/>}>
       </Route>

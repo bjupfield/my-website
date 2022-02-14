@@ -15,9 +15,7 @@ function CreatorBrowse({setLoginPath, setEditNum}){
         })
         .then(r=>r.json())
         .then(r=>{
-            console.log(r)
             setFiles(r)
-            console.log(r)
         })
     }, [])
     return <div className="overflowsetter">

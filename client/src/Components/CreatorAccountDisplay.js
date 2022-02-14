@@ -22,7 +22,6 @@ function CreatorAccountDisplay({file, ind, inBrowse = false, setLoginPath, setEd
             const b = r.split("path(\"")
             const c = b[1].split("\");")
             const d = b[1].split("\n")
-            console.log(d)
             const path = c[0]
             const color = c[1].split(/(fill:)/)[2].split(";")[0].replace(" ", "")
             const strokeColr = d[2].split(":")[1] ? d[2].split(":")[1].replace(/[ px;]/ig, ""): "";
@@ -90,7 +89,6 @@ function CreatorAccountDisplay({file, ind, inBrowse = false, setLoginPath, setEd
                 }
                 // else i)
                 else{
-                    console.log(r)
                     setLikes(likes + 1)
                     setLiked(true)
                 }

@@ -6,7 +6,7 @@ import CreatorHeaders from "./CreatorHeaders";
 import DownloadFileButton from "./DownloadFileButton";
 import LoginCreator from "./LoginCreator";
 import SaveButton from "./SaveButton";
-function DivEditor({ editNum }){
+function DivEditor({ editNum, setEditNum }){
     const [mouseDownPos, setMouseDownPos] = useState([]);
     const [clientBorder, setClientBorder] = useState([]);
     const [pathD, setPathD] = useState("");
@@ -20,6 +20,7 @@ function DivEditor({ editNum }){
     const [svgStrokeColor, setSvgStrokeColor] = useState("")
     const [file, setFile] = useState(new File([], ""));
     const [needLogin, setNeedLogin] = useState(false)
+    const [editNum2, setEditNum2] = useState(null)
     const observer = useRef(null)
     function resizePathTrue(path, x, y, vx, vy){
         const test = path.split("L");
@@ -260,7 +261,10 @@ function DivEditor({ editNum }){
                     resizePathTrue(path, cc.width, cc.height, viewBox[0], viewBox[1])
                     setViewBoxStuff([cc.width, cc.height])
                 })
+                setSvgName(r.file_name.split(/[.]/)[0])
                 setFile(z)
+                setEditNum(null)
+                setEditNum2(editNum)
         })
         }
         else{
@@ -350,7 +354,7 @@ function DivEditor({ editNum }){
                     file_name: e.name,
                     file_mime: e.type,
                     share: false,
-                    editNum: editNum,
+                    editNum: editNum2,
                 })
             })
             .then(r=>r.json())
@@ -369,7 +373,6 @@ function DivEditor({ editNum }){
     }
     const w = window.innerWidth
     const h = window.innerHeight
-    console.log(svgLineThickness)
     return <div className="fullpage" onMouseMove={(e)=>onMouseMoveCall(e)} onMouseUp={()=>onMouseUpCall()}>
         <CreatorHeaders page={"/creator"}></CreatorHeaders>
         <div className="CreatorDiv">
