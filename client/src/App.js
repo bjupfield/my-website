@@ -10,6 +10,7 @@ import CreatorBrowse from "./Components/CreatorBrowse";
 function App() {
   const [count, setCount] = useState(0);
   const [whereTo, setWhereTo] = useState("/homepage")
+  const [editNum, setEditNum] = useState(null)
   function setLoginPath(d){
     setWhereTo(d)
   }
@@ -24,11 +25,11 @@ function App() {
     <Routes>
       <Route path="/creator/tutorial" element={<CreatorTutorial></CreatorTutorial>}>
       </Route >
-      <Route path="/creator/account" element={<CreatorAccount setLoginPath={setLoginPath}></CreatorAccount>}>
+      <Route path="/creator/account" element={<CreatorAccount setEditNum={setEditNum} setLoginPath={setLoginPath}></CreatorAccount>}>
       </Route>
-      <Route path="/creator/browse" element={<CreatorBrowse setLoginPath={setLoginPath}></CreatorBrowse>}>
+      <Route path="/creator/browse" element={<CreatorBrowse setLoginPath={setLoginPath} setEditNum={setEditNum}></CreatorBrowse>}>
       </Route>
-      <Route path="/Creator" element={<DivEditor></DivEditor>}>
+      <Route path="/Creator" element={<DivEditor editNum={editNum}></DivEditor>}>
       </Route>
       <Route path="/login" element={<Login afterloginpath={whereTo}/>}>
       </Route>

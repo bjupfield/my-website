@@ -4,9 +4,9 @@ import '../Style/DivEditor.css';
 import '../Style/Header.css';
 import CreatorHeaders from "./CreatorHeaders";
 import DownloadFileButton from "./DownloadFileButton";
-import Header from "./Header";
-import SideBar from "./SideBar";
-function DivEditor({}){
+import LoginCreator from "./LoginCreator";
+import SaveButton from "./SaveButton";
+function DivEditor({ editNum }){
     const [mouseDownPos, setMouseDownPos] = useState([]);
     const [clientBorder, setClientBorder] = useState([]);
     const [pathD, setPathD] = useState("");
@@ -16,9 +16,12 @@ function DivEditor({}){
     const [viewBoxStuff, setViewBoxStuff] = useState([100, 100]);
     const [svgName, setSvgName] = useState("");
     const [svgColor, setSvgColor] = useState("");
+    const [svgLineThickness, setSvgLineThickness] = useState(0)
+    const [svgStrokeColor, setSvgStrokeColor] = useState("")
     const [file, setFile] = useState(new File([], ""));
+    const [needLogin, setNeedLogin] = useState(false)
     const observer = useRef(null)
-    function resizePathTrue(path, x, y){
+    function resizePathTrue(path, x, y, vx, vy){
         const test = path.split("L");
         const line = test.map((line)=>{
             let lineTest = line.split(" ").filter((element)=>{
@@ -29,19 +32,19 @@ function DivEditor({}){
             });        
             switch(lineTest.length){
             case 2:
-                const newx = (parseFloat(lineTest[0]) / viewBoxStuff[0]) * x;
-                const newy = (parseFloat(lineTest[1]) / viewBoxStuff[1]) * y;
+                const newx = (parseFloat(lineTest[0]) / vx) * x;
+                const newy = (parseFloat(lineTest[1]) / vy) * y;
                 lineTest = ["L", newx.toString(), newy.toString()];
                 break;
             case 3:
                 if(lineTest[0] === "M"){
-                    const newx = (parseFloat(lineTest[1]) / viewBoxStuff[0]) * x;
-                    const newy = (parseFloat(lineTest[2]) / viewBoxStuff[1]) * y;
+                    const newx = (parseFloat(lineTest[1]) / vx) * x;
+                    const newy = (parseFloat(lineTest[2]) / vy) * y;
                     lineTest = ["M", newx.toString(), newy.toString()]
                 }
                 else{
-                    const newx = (parseFloat(lineTest[0]) / viewBoxStuff[0]) * x;
-                    const newy = (parseFloat(lineTest[1]) / viewBoxStuff[1]) * y;
+                    const newx = (parseFloat(lineTest[0]) / vx) * x;
+                    const newy = (parseFloat(lineTest[1]) / vy) * y;
                     lineTest = ["L", newx.toString(), newy.toString(), "z"]
                 }
                 break;
@@ -187,7 +190,6 @@ function DivEditor({}){
         addPoints(pointIntersect)
     }
     function addPoints(points){
-        console.log(points)
         let sanityCount = 0;
         let newTruePath = pathTrue.split("L").map(path=>path.split(" ").filter(b=>b !== ""));
         points.forEach((arr , ind)=>{
@@ -230,18 +232,43 @@ function DivEditor({}){
             }
             return path.join(" ")
         })
-        console.log(pathTrue)
-        console.log(newTruePath)
         setPoints(newTruePath);
         setPathTrue(newTruePath.join(" "));
-
     }
     let e = 1;
     useEffect(()=>{
-        const d = document.querySelector("#absolute");
-        const c = d.getBoundingClientRect();
-        resizePathTrue(pathTrue, c.width, c.height)
-        setViewBoxStuff([c.width, c.height])
+        if(editNum !== null){
+            fetch(`http://localhost:3000/saveFile/${editNum}`)
+            .then(r=>r.json())
+            .then(r=>{
+                const z = IntepretFile(r)
+                z.text()
+                .then(r=>{
+                    const b = r.split("path(\"")
+                    const c = b[1].split("\");")
+                    const d = b[1].split("\n")
+                    const e = b[0].split("\"")[1].split(" ")
+                    const path = c[0]
+                    const color = c[1].split(/(fill:)/)[2].split(";")[0].replace(" ", "")
+                    const strokeColr = d[2].split(":")[1] ? d[2].split(":")[1].replace(/[ px;]/ig, ""): "";
+                    const strokeThick = d[3] ?  d[3].split(":")[1].replace(/[ px;]/ig, "") : "";
+                    const viewBox = [parseFloat(e[2].replace(",", "")), parseFloat(e[3].replace(",", ""))]
+                    setSvgColor(color)
+                    setSvgStrokeColor(strokeColr)
+                    setSvgLineThickness(strokeThick)
+                    const cc = document.querySelector("#absolute").getBoundingClientRect();
+                    resizePathTrue(path, cc.width, cc.height, viewBox[0], viewBox[1])
+                    setViewBoxStuff([cc.width, cc.height])
+                })
+                setFile(z)
+        })
+        }
+        else{
+            const d = document.querySelector("#absolute");
+            const c = d.getBoundingClientRect();
+            resizePathTrue(pathTrue, c.width, c.height, viewBoxStuff[0], viewBoxStuff[1])
+            setViewBoxStuff([c.width, c.height])
+        }
     }, [])
     useEffect(()=>{
         observer.current = new ResizeObserver(entries =>{
@@ -249,7 +276,7 @@ function DivEditor({}){
                 if(e !== 1)
                 {
                     const d = entry.target.getBoundingClientRect();
-                    resizePathTrue(pathTrue, d.width, d.height)
+                    resizePathTrue(pathTrue, d.width, d.height, viewBoxStuff[0], viewBoxStuff[1])
                     setViewBoxStuff([d.width, d.height])
                 }
                 ++e;
@@ -304,6 +331,8 @@ function DivEditor({}){
 .${svgName} path{
         d: path("${pathTrue}");
         fill: ${svgColor};
+        stroke: ${svgStrokeColor};
+        stroke-width: ${svgLineThickness}px;
     }`], `${svgName}.css`, {
             type: "text/css"
         })
@@ -319,23 +348,33 @@ function DivEditor({}){
                 body: JSON.stringify({
                     file_data: view,
                     file_name: e.name,
-                    file_mime: e.type
+                    file_mime: e.type,
+                    share: false,
+                    editNum: editNum,
                 })
             })
             .then(r=>r.json())
             .then(r=>{
-                const z = IntepretFile(r)
-                setFile(z)
+                if(r.error){
+                    setNeedLogin(!needLogin)
+                }
+                else{
+                    const z = IntepretFile(r)
+                    setFile(z)
+                }
             })
             .catch(r=>r)
             .then(r=>console.log(r))
         })
     }
+    const w = window.innerWidth
+    const h = window.innerHeight
+    console.log(svgLineThickness)
     return <div className="fullpage" onMouseMove={(e)=>onMouseMoveCall(e)} onMouseUp={()=>onMouseUpCall()}>
         <CreatorHeaders page={"/creator"}></CreatorHeaders>
         <div className="CreatorDiv">
             <svg viewBox={`0, 0, ${viewBoxStuff[0]}, ${viewBoxStuff[1]}`}>
-                <path  d={pathTrue}></path>
+                <path fill={svgColor} d={pathTrue} strokeWidth={ (svgLineThickness !== "" ? svgLineThickness : 0) + "px"} stroke={svgStrokeColor}></path>
             </svg>
             <div id="absolute"  onMouseDown={(e)=>onMouseDownCall(e)}>
                 <svg viewBox={`0, 0, ${viewBoxStuff[0]}, ${viewBoxStuff[1]}`}>
@@ -345,20 +384,34 @@ function DivEditor({}){
             {points.map((point, ind)=>{
                 const f = point.split(" ");
                 if(f[2] === "z"){
-                    return <div className="adjustor" id={`${ind}`} style={{position:"absolute", top:`${parseFloat(f[1])}px`, left:`${parseFloat(f[0])}px`, height:"10px", width:"10px"}}
-                    onMouseDown={(e)=>onMouseDownAdjustor(e)} ><svg viewBox="0, 0, 10, 10"><circle cx={5} cy={5} r={5} fill="red"></circle></svg></div>
+                    return <div className={ind === parseFloat(pointId)? "adjusting" : "adjustor"} id={`${ind}`} style={{position:"absolute", top:`${(parseFloat(f[1]) / viewBoxStuff[1]) * h * .8 + 39.5}px`, left:`${(parseFloat(f[0]) / viewBoxStuff[0]) * w * .8 + 67.5}px`, height:"10px", width:"10px"}}
+                    onMouseDown={(e)=>onMouseDownAdjustor(e)} ><svg viewBox="0, 0, 12, 12"><circle cx={5} cy={5} r={5}></circle></svg></div>
                 }
-                return <div className="adjustor" id={`${ind}`} style={{position:"absolute", top:`${parseFloat(f[2]) + 36}px`, left:`${parseFloat(f[1]) + 67}px`, height:"10px", width:"10px"}}
-                onMouseDown={(e)=>onMouseDownAdjustor(e)} ><svg viewBox="0, 0, 10, 10"><circle cx={5} cy={5} r={5} fill="red"></circle></svg></div>
+                return <div className={ind === parseFloat(pointId)? "adjusting" : "adjustor"} id={`${ind}`} style={{position:"absolute", top:`${(parseFloat(f[2]) / viewBoxStuff[1]) * h * .8 + 39.5}px`, left:`${(parseFloat(f[1]) / viewBoxStuff[0]) * w * .8 + 67.5}px`, height:"10px", width:"10px"}}
+                onMouseDown={(e)=>onMouseDownAdjustor(e)} ><svg viewBox="0, 0, 12, 12"><circle cx="5" cy="5" r="5"></circle></svg></div>
             })}
         </div>
         <div className="addMargin">
-            <input style={{borderWidth: "0px", borderRadius: "3px"}} value={svgName} onChange={e=>setSvgName(e.target.value)}></input>
-            <div style={{color: "red", borderStyle: "solid", borderWidth: "2px", borderColor: "purple", cursor: "pointer"}} onClick={e=>onButtonClick(e)} >
-                Save Div
+            <div className="inputer">
+                <div className="label">Color: </div>
+                <input type="color" value={svgColor} className="color" onChange={e=>setSvgColor(e.target.value)}></input>
             </div>
+            <div className="inputer">
+                <div className="label">Line-Thickness: </div>
+                <input type="number" value={svgLineThickness} placeholder="Numbers only fool..." className="number" onChange={e=>setSvgLineThickness(e.target.value)}></input>
+            </div >
+            <div className="inputer">
+                <div className="label">Line-Color: </div>
+                <input type="color" value={svgStrokeColor} className="color" onChange={e=>setSvgStrokeColor(e.target.value)}></input>
+            </div>
+            <div className="inputer">
+                <div className="label">Name: </div>
+                <input className="namer" value={svgName} onChange={e=>setSvgName(e.target.value.replace(/[ ]/ig, ""))}></input>
+            </div>
+            <SaveButton named={(svgName !== "")} saveButtonFunc={onButtonClick}></SaveButton>
             <DownloadFileButton file={file} inCreator={true}></DownloadFileButton>
         </div>
+        { needLogin ? <div className="overlaying"><LoginCreator setLoggedIn={setNeedLogin}/></div> : ""}
     </div>
 }
 export default DivEditor;

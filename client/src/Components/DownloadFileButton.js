@@ -8,7 +8,7 @@ function DownloadFileButton({file, inCreator}){
     }
     return mustSave ? <div className={inCreator ? "inCreator" : "inDisplay"}>
             {file.size === 0 ? <div onClick={()=>sayMustDownload()}>Download</div>: <a style={{textDecoration:"none", color: "#2f953d"}} href={url} download={file.name}>Download</a>}
-            <div className="overlay" onClick={()=>sayMustDownload()}><div style={{position: 'absolute' ,top: "45%", width: "100%", textAlign: "center", color: "blue", fontWeight: "700", fontSize: "50px"}} onClick={()=>sayMustDownload()}>You Must SAVE To Download</div></div>
+            <div className="overlay" onClick={()=>sayMustDownload()}><div className="overlayText" onClick={()=>sayMustDownload()}>You Must SAVE To Download</div></div>
         </div> 
     : 
         <div className={inCreator ? "inCreator" : "inDisplay"}>

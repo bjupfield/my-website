@@ -4,12 +4,20 @@ class SaveFileController < ApplicationController
     #     self.class.serialization_scope :file
     #   end
     def create
-        p params[:file_data]
-        p params[:file_name]
-        p params[:file_mime]
         if(session[:user_id])
-            b = SaveFile.create!(user_id: session[:user_id], file_data: params[:file_data], file_name: params[:file_name], file_mime: params[:file_mime], share: false)
-            render json: b, status: 200
+            if(params[:editNum] != nil)
+                file = SaveFile.find(params[:editNum])
+                if(file.user_id == session[:user_id])
+                    file.update(file_name: params[:file_name], file_data: params[:file_data])
+                    render json: file, status: 200
+                else
+                    b = SaveFile.create!(user_id: session[:user_id], file_data: params[:file_data], file_name: params[:file_name], file_mime: params[:file_mime], share: false)
+                    render json: b, status: 200
+                end
+            else
+                b = SaveFile.create!(user_id: session[:user_id], file_data: params[:file_data], file_name: params[:file_name], file_mime: params[:file_mime], share: false)
+                render json: b, status: 200
+            end
         else
             render json: {error: "Need To Be logged in"}, status: 400
         end
@@ -21,6 +29,10 @@ class SaveFileController < ApplicationController
     def filesAntiUser
         @files = SaveFile.where.not(user_id: session[:user_id]).where(share: true)
         render json: @files, user_id: session[:user_id], include: ["user", "likes"], each_serializer: SaveFileAntiUserSerializer,  status: 200
+    end
+    def fileById
+        file = SaveFile.find(params[:id])
+        render json: file, status: 200
     end
     def shareChange
         b = User.find(session[:user_id]).save_files.find(params[:id])

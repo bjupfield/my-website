@@ -5,7 +5,8 @@
     width: 9ch; 
     text-align: center; 
     background-color: steelblue; 
-    margin-left: 1%
+    margin-left: 1%;
+    margin-top: 4px;
 }
 .inDisplay{
     cursor:pointer;
@@ -23,4 +24,13 @@
     height: calc(100% - 40px); 
     width: calc(100% - 70px); 
     background-color: rgba(0,0,0,0.5)
+}
+.overlayText {
+    position: absolute;
+    top: 45%; 
+    width: 100%; 
+    text-align: center; 
+    color: blue; 
+    font-weight: 700;
+    font-size: 50px
 }

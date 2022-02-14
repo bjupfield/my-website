@@ -2,9 +2,8 @@ import {useState } from "react";
 import LoginBar from "./LoginBar";
 import {Navigate} from "react-router-dom";
 import "../Style/Login.css"
-function Login({ afterloginpath = "/homepage" }){
-    const [intro, setIntro] = useState("Plz Enter Password")
-    const [navigateNow, setNavigateNow] = useState(false)
+function LoginCreator({ setLoggedIn }){
+    const [intro, setIntro] = useState("Must Login to Save")
     const [logins, setLogins] = useState("")
     const [passwords, setPasswords] = useState("")
     function doPassword(e){
@@ -36,7 +35,7 @@ function Login({ afterloginpath = "/homepage" }){
                 }
             }
             else{
-                setNavigateNow(true)
+                setLoggedIn(false)
             }
         })
     }
@@ -58,26 +57,24 @@ function Login({ afterloginpath = "/homepage" }){
                 setIntro(r.error)
             }
             else{
-                setNavigateNow(true)
+                setLoggedIn(false)
             }
         })
     }
-    console.log(afterloginpath)
-    return navigateNow ? <Navigate to={`${afterloginpath}`}/> : <div
-    className="big"
+    return <div className="big"
     >
-        <div className="intro">{intro}</div>
+        <div className="intro" >{intro}</div>
         <LoginBar textMess={"Login"} value={logins} valueChange={doLogin}/>
         <LoginBar textMess={"Password"} value={passwords} valueChange={doPassword}/>
-        <div style={{padding:"3%"}}></div>
+        <div style={{padding:"5%"}}></div>
         <div className="margin">
-            <div onClick={()=>create()} className="left">
+            <div className="left" onClick={()=>create()}>
                 Create
             </div>
-            <div onClick={()=>login()} className="right">
+            <div className="right" onClick={()=>login()}>
                 Login
             </div>
         </div>
     </div>
 }
-export default Login;
+export default LoginCreator;

@@ -3,7 +3,7 @@ import CreatorAccountDisplay from "./CreatorAccountDisplay";
 import CreatorHeaders from "./CreatorHeaders";
 import { Navigate } from "react-router-dom";
 
-function CreatorAccount({setLoginPath}){
+function CreatorAccount({setLoginPath, setEditNum}){
     const [filesList, setFilesList] = useState([])
     const [renderLogin, setRenderLogin] = useState(false)
     useEffect(()=>{
@@ -32,7 +32,7 @@ function CreatorAccount({setLoginPath}){
     },[])
     return renderLogin ? <Navigate to="/login"></Navigate> : <div className="overflowsetter">
         <CreatorHeaders page={"/creator/account"}></CreatorHeaders>
-        {filesList.map((elemen, ind)=><CreatorAccountDisplay file={elemen} ind={ind}></CreatorAccountDisplay>)}
+        {filesList.map((elemen, ind)=><CreatorAccountDisplay file={elemen} ind={ind} setEditNum={setEditNum}></CreatorAccountDisplay>)}
     </div>
 }
 export default CreatorAccount;

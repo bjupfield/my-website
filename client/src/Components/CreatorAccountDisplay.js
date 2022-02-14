@@ -3,26 +3,35 @@ import { Navigate } from "react-router-dom";
 import IntepretFile from "../Functions/InterpretFile";
 import "../Style/CreatorAccountDisplayStyling.css"
 import DownloadFileButton from "./DownloadFileButton";
-function CreatorAccountDisplay({file, ind, inBrowse = false, setLoginPath}){
+function CreatorAccountDisplay({file, ind, inBrowse = false, setLoginPath, setEditNum}){
     const [color, setColor] = useState("")
     const [path, setPath] = useState("")
+    const [strokeColor, setStrokeColor] = useState("#s32fs2")
+    const [stroke, setStroke] = useState(0)
     const [viewbox, setViewBox] = useState("")
     const [render, norender] = useState(false)
     const [likes, setLikes] = useState(file.likes.length);
     const [liked, setLiked] = useState( (file.likes.find(likearray=>likearray.ifUser) !== undefined))
     const [sharedOrNot, setSharedOrNot] = useState(file.share)
     const [renderLogin, setRenderLogin] = useState(false);
+    const [renderEdit, setRenderEdit] = useState(false);
     const z = IntepretFile(file)
     useEffect(()=>{
         z.text()
         .then(r=>{
             const b = r.split("path(\"")
             const c = b[1].split("\");")
+            const d = b[1].split("\n")
+            console.log(d)
             const path = c[0]
             const color = c[1].split(/(fill:)/)[2].split(";")[0].replace(" ", "")
+            const strokeColr = d[2].split(":")[1] ? d[2].split(":")[1].replace(/[ px;]/ig, ""): "";
+            const strokeThick = d[3] ?  d[3].split(":")[1].replace(/[ px;]/ig, "") : "";
             setViewBox(b[0].split("\"")[1])
             setPath(path)
             setColor(color)
+            setStrokeColor(strokeColr)
+            setStroke(strokeThick)
         })}, [])
     function deleteButton(){
         fetch(`http://localhost:3000/saveFile/${file.id}`,{
@@ -40,7 +49,8 @@ function CreatorAccountDisplay({file, ind, inBrowse = false, setLoginPath}){
         })
     }
     function editButton(){
-        console.log("edit")
+        setRenderEdit(!renderEdit)
+        setEditNum(file.id)
     }
     function shareButton(){
         fetch(`http://localhost:3000/share/${file.id}`,{
@@ -99,8 +109,8 @@ function CreatorAccountDisplay({file, ind, inBrowse = false, setLoginPath}){
         };
         return ind === 0 ? parseFloat(element) + 1 > 12 ? parseFloat(element) - 11 : parseFloat(element) + 1 : parseFloat(element) + 1
     }).slice(0, 2).join(":").concat(" " + amorpm);
-    return renderLogin ? <Navigate to={"/login"}></Navigate> : render ? "" : <div className={ind === 0 ? "first" : "styling"}>
-        <svg viewBox={viewbox}><path d={path} fill={color}></path></svg>
+    return renderEdit ?  <Navigate to = {"/creator"} ></Navigate>: renderLogin ? <Navigate to={"/login"}></Navigate> : render ? "" : <div className={ind === 0 ? "first" : "styling"}>
+        <svg viewBox={viewbox}><path d={path} fill={color} strokeWidth={stroke + "px"} stroke={strokeColor}></path></svg>
         <div className= "name">{z.name.split(".")[0]}</div>
         <div className="likeButton">{" : " + likes}</div>
         <div className={inBrowse ? liked ? "likedHeart" : "browseHeart" : "likeHeart"} onClick={inBrowse ?()=> checkLike() : ()=>console.log("hello")}>❤</div>

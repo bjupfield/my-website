@@ -20,6 +20,7 @@
     top: 41px;
     width: 80%; 
     height: 80%;
+    /* height: calc(80% - 40px); */
     border-width: 1px; 
 }
 .CreatorDiv #absolute svg{
@@ -31,6 +32,64 @@
 .CreatorDiv .adjustor svg{
     position: absolute;
 }
+.CreatorDiv .adjustor svg circle{
+    fill: red;
+}
+.CreatorDiv .adjustor svg circle:hover{
+    fill: red;
+    stroke: blue;
+    stroke-width: 1px;
+}
+.CreatorDiv .adjusting svg{
+    position: absolute;
+}
+.CreatorDiv .adjusting svg circle{
+    fill: blue;
+}
 .addMargin {
-    margin-left: 70px;
+    width: calc((100% - 90px) * .7);
+    height: calc(20% - 42px - 20px);
+
+    margin-left: 95px;
+    overflow-y: auto;
+    background-color: grey;
+    border: solid;
+    border-color: #751515;
+    border-width: 5px;
+}
+.inputer {
+    width: 100%;
+    height: 30px;
+    margin-top: 2px;
+}
+.label {
+    font-weight: 600;
+    font-size: 18px;
+    margin-left: 1%;
+    margin-right: 10px;
+    float: left;
+}
+.color { 
+    cursor: pointer
+}
+.number{
+    border: none;
+    margin-top: 2.5px;
+    height: 25px;
+}
+.number input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.namer{
+    border: none;
+    margin-top: 2.5px;
+    height: 25px;
+}
+.overlaying {
+    position: absolute; 
+    top: 0;
+    height: 100%; 
+    width: 100%; 
+    background-color: rgba(0,0,0,0.5)
 }

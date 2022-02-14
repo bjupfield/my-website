@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "/filesAntiUser", to: "save_file#filesAntiUser"
   post "/saveFile", to: "save_file#create"
   delete "/saveFile/:id", to: "save_file#delete"
+  get "/saveFile/:id", to: "save_file#fileById"
   patch "/share/:id", to: "save_file#shareChange"
   resources :user
   post "/login", to: "user#login"

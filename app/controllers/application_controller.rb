@@ -7,6 +7,6 @@ class ApplicationController < ActionController::API
     end
     private
     def not_found(invalid)
-        render json: {error: invalid.record.errors}, status: :not_found
+        render json: {error: invalid}, status: :not_found
     end
 end
