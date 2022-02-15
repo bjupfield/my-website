@@ -1,0 +1,2 @@
+class PrivateFile < ApplicationRecord
+end

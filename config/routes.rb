@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   resources :user
   post "/login", to: "user#login"
   post "/like/:id", to: "like#create"
+  post "/createPrivateFile", to: "private_file#create"
+  get "/privateFile/:id", to: "private_file#get"
   get '*path',
       to: 'fallback#index',
       constraints: ->(req) { !req.xhr? && req.format.html? }

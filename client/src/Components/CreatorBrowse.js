@@ -20,7 +20,7 @@ function CreatorBrowse({setLoginPath, setEditNum}){
     }, [])
     return <div className="overflowsetter">
         <CreatorHeaders page={"/creator/browse"}></CreatorHeaders>
-        {Files.map((elemen, ind)=><CreatorAccountDisplay file={elemen} ind={ind} inBrowse={true} setLoginPath={setLoginPath} setEditNum={setEditNum}></CreatorAccountDisplay>)}
+        {Files.map((elemen, ind)=><CreatorAccountDisplay file={elemen} ind={ind} inBrowse={true} setLoginPath={setLoginPath} setEditNum={setEditNum} length={Files.length}></CreatorAccountDisplay>)}
     </div>
 }
 export default CreatorBrowse;

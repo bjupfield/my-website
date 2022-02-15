@@ -1,15 +1,15 @@
 .fullpage {
     width: 100vw;
     height: 100vh;
+    background-color: #0f0e0f;
 }
 .CreatorDiv {
     /* background-color: blueviolet; */
     width: 80%;
     height: 80%;
     margin-left: 70px;
-    padding-top: 40px;
     border-style: dashed;
-    border-color: #751515;
+    border-color: #6d30ba;
     border-width: 1px;
 }
 .CreatorDiv svg{
@@ -19,7 +19,7 @@
     position: absolute; 
     top: 41px;
     width: 80%; 
-    height: 80%;
+    height: calc(80% - 6px);
     /* height: calc(80% - 40px); */
     border-width: 1px; 
 }
@@ -33,18 +33,18 @@
     position: absolute;
 }
 .CreatorDiv .adjustor svg circle{
-    fill: red;
+    fill: #6a0be6;
 }
 .CreatorDiv .adjustor svg circle:hover{
-    fill: red;
-    stroke: blue;
+    fill: #6a0be6;
+    stroke: rgb(11, 0, 107);
     stroke-width: 1px;
 }
 .CreatorDiv .adjusting svg{
     position: absolute;
 }
 .CreatorDiv .adjusting svg circle{
-    fill: blue;
+    fill: rgb(11, 0, 107);
 }
 .addMargin {
     width: calc((100% - 90px) * .7);
@@ -52,9 +52,9 @@
 
     margin-left: 95px;
     overflow-y: auto;
-    background-color: grey;
+    background-color: #53327e;
     border: solid;
-    border-color: #751515;
+    border-color: #270f44;
     border-width: 5px;
 }
 .inputer {

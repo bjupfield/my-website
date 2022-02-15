@@ -14,6 +14,10 @@ function IntepretFile(r){
                 type: r.file_mime
             });
             break;
+        case "image":
+            z = new File([view], "", {
+                type: r.file_mime
+            });
     }
     return z;
 }

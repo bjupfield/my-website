@@ -1,20 +1,18 @@
 .inCreator{
     cursor:pointer;
-    border:solid; 
-    border-radius: 5px; 
+    border: solid 2.95px black;
     width: 9ch; 
     text-align: center; 
-    background-color: steelblue; 
+    background-color: rgb(167, 109, 206); 
     margin-left: 1%;
     margin-top: 4px;
 }
 .inDisplay{
     cursor:pointer;
-    border:solid; 
-    border-radius: 5px; 
+    border: solid 2.95px black;
     width: 9ch; 
     text-align: center; 
-    background-color: steelblue; 
+    background-color: rgb(167, 109, 206); 
     margin-left: 5%
 }
 .overlay {

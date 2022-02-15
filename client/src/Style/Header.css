@@ -1,12 +1,14 @@
 .Header{
     position: absolute;
     width: 100vw; 
-    height: 40px; 
-    background-color: grey;
-    box-shadow: 0px 0px  10px 0px pink inset
+    height: 38px; 
+    background-color: #664591;
+    border-bottom: double;
+    border-bottom-color: black;
+    box-shadow: 0px 0px  2px 0px black inset
 }
 .carrion{
-    width: 50px;
+    width: calc(50% - 38px);
     height: 0px;
 }
 .carrion select{
@@ -20,10 +22,16 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     text-overflow: ellipsis;
+    margin-left: 70px;
+    padding-top: 7px;
+    font-size: 22px;
+    font-weight: 700;
 }
 .carrion select option{
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-color: grey;
-    color: purple;
+    background-color: #664591;
+    /* color: #281a3b; */
+    border: 0px;
+    border-color: #664591;
 }

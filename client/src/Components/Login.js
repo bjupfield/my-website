@@ -63,19 +63,23 @@ function Login({ afterloginpath = "/homepage" }){
         })
     }
     console.log(afterloginpath)
-    return navigateNow ? <Navigate to={`${afterloginpath}`}/> : <div
-    className="big"
-    >
-        <div className="intro">{intro}</div>
-        <LoginBar textMess={"Login"} value={logins} valueChange={doLogin}/>
-        <LoginBar textMess={"Password"} value={passwords} valueChange={doPassword}/>
-        <div style={{padding:"3%"}}></div>
-        <div className="margin">
-            <div onClick={()=>create()} className="left">
-                Create
-            </div>
-            <div onClick={()=>login()} className="right">
-                Login
+    return navigateNow ? <Navigate to={`${afterloginpath}`}/> : <div>
+        <div className="padding"></div>
+        <div
+        className="big"
+        >
+            <div className=""></div>
+            <div className="intro">{intro}</div>
+            <LoginBar textMess={"Login"} value={logins} valueChange={doLogin}/>
+            <LoginBar textMess={"Password"} value={passwords} valueChange={doPassword}/>
+            <div style={{padding:"3%"}}></div>
+            <div className="margin">
+                <div onClick={()=>create()} className="left">
+                    Create
+                </div>
+                <div onClick={()=>login()} className="right">
+                    Login
+                </div>
             </div>
         </div>
     </div>

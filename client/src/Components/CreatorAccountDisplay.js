@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import IntepretFile from "../Functions/InterpretFile";
 import "../Style/CreatorAccountDisplayStyling.css"
 import DownloadFileButton from "./DownloadFileButton";
-function CreatorAccountDisplay({file, ind, inBrowse = false, setLoginPath, setEditNum}){
+function CreatorAccountDisplay({file, ind, length, inBrowse = false, setLoginPath, setEditNum}){
     const [color, setColor] = useState("")
     const [path, setPath] = useState("")
     const [strokeColor, setStrokeColor] = useState("#s32fs2")
@@ -107,7 +107,7 @@ function CreatorAccountDisplay({file, ind, inBrowse = false, setLoginPath, setEd
         };
         return ind === 0 ? parseFloat(element) + 1 > 12 ? parseFloat(element) - 11 : parseFloat(element) + 1 : parseFloat(element) + 1
     }).slice(0, 2).join(":").concat(" " + amorpm);
-    return renderEdit ?  <Navigate to = {"/creator"} ></Navigate>: renderLogin ? <Navigate to={"/login"}></Navigate> : render ? "" : <div className={ind === 0 ? "first" : "styling"}>
+    return renderEdit ?  <Navigate to = {"/creator"} ></Navigate>: renderLogin ? <Navigate to={"/login"}></Navigate> : render ? "" : <div className={ind === 0 ? "first" : ind = length? "bottem" : "styling"}>
         <svg viewBox={viewbox}><path d={path} fill={color} strokeWidth={stroke + "px"} stroke={strokeColor}></path></svg>
         <div className= "name">{z.name.split(".")[0]}</div>
         <div className="likeButton">{" : " + likes}</div>

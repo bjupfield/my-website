@@ -3,11 +3,14 @@
     margin-left: 15%; 
     height: 32.5%; 
     background-color: #664591;
-    /* background-color: #7641BA; */
-    margin-top: calc(100vh * .25);
     border: double;
     border-width: 6px;
     border-color: black;
+}
+.padding {
+    height: calc(100vh * .25);
+    background-color: #0f0e0f;
+    color: #0f0e0f;
 }
 .big .intro {
     width: 50%; 

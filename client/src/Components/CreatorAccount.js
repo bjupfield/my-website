@@ -32,7 +32,7 @@ function CreatorAccount({setLoginPath, setEditNum}){
     },[])
     return renderLogin ? <Navigate to="/login"></Navigate> : <div className="overflowsetter">
         <CreatorHeaders page={"/creator/account"}></CreatorHeaders>
-        {filesList.map((elemen, ind)=><CreatorAccountDisplay file={elemen} ind={ind} setEditNum={setEditNum}></CreatorAccountDisplay>)}
+        {filesList.map((elemen, ind)=><CreatorAccountDisplay file={elemen} ind={ind} setEditNum={setEditNum} length={filesList.length}></CreatorAccountDisplay>)}
     </div>
 }
 export default CreatorAccount;

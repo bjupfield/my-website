@@ -3,7 +3,7 @@
     top: 40px;
     width: 70px;
     height: calc(100vh - 40px);
-    background: darkgrey;
+    background: #46276E;
     float: left;
-    box-shadow: inset 0px 0px 10px 0px pink;
+    box-shadow: inset 0px 0px 10px 0px black;
 }

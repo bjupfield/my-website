@@ -21,7 +21,7 @@ function App() {
   //     .then((data) => setCount(data.count));
   // }, []);
   const urlName = window.location.origin;
-  return <div style={{height: "100%", width: "100%"}}><BrowserRouter>
+  return <div style={{height: "100vh", width: "100vw", backgroundColor: "#0f0e0f", color:"white"}}><BrowserRouter>
     <Routes>
       <Route path="/creator/tutorial" element={<CreatorTutorial></CreatorTutorial>}>
       </Route >

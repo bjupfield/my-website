@@ -375,6 +375,7 @@ function DivEditor({ editNum, setEditNum }){
     const h = window.innerHeight
     return <div className="fullpage" onMouseMove={(e)=>onMouseMoveCall(e)} onMouseUp={()=>onMouseUpCall()}>
         <CreatorHeaders page={"/creator"}></CreatorHeaders>
+        <div style={{height: "41px"}}></div>
         <div className="CreatorDiv">
             <svg viewBox={`0, 0, ${viewBoxStuff[0]}, ${viewBoxStuff[1]}`}>
                 <path fill={svgColor} d={pathTrue} strokeWidth={ (svgLineThickness !== "" ? svgLineThickness : 0) + "px"} stroke={svgStrokeColor}></path>
