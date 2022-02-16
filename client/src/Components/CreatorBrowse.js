@@ -6,7 +6,7 @@ import "../Style/CreatorAccount.css"
 function CreatorBrowse({setLoginPath, setEditNum}){
     const [Files, setFiles] = useState([])
     useEffect(()=>{
-        fetch("http://localhost:3000/filesAntiUser", {
+        fetch("https://svg-website.herokuapp.com/filesAntiUser", {
             method: "GET",
             headers:{
                 "Content-Type" : "application/json"

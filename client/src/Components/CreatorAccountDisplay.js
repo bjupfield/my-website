@@ -33,7 +33,7 @@ function CreatorAccountDisplay({file, ind, length, inBrowse = false, setLoginPat
             setStroke(strokeThick)
         })}, [])
     function deleteButton(){
-        fetch(`http://localhost:3000/saveFile/${file.id}`,{
+        fetch(`https://svg-website.herokuapp.com/saveFile/${file.id}`,{
             method: "DELETE",
             credentials: "include",
             headers : {
@@ -52,7 +52,7 @@ function CreatorAccountDisplay({file, ind, length, inBrowse = false, setLoginPat
         setEditNum(file.id)
     }
     function shareButton(){
-        fetch(`http://localhost:3000/share/${file.id}`,{
+        fetch(`https://svg-website.herokuapp.com/share/${file.id}`,{
             method: "PATCH",
             credentials: "include",
             headers: {
@@ -68,7 +68,7 @@ function CreatorAccountDisplay({file, ind, length, inBrowse = false, setLoginPat
         })
     }
     function checkLike(){
-        fetch(`http://localhost:3000/like/${file.id}`,{
+        fetch(`https://svg-website.herokuapp.com/like/${file.id}`,{
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

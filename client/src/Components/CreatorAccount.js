@@ -7,7 +7,7 @@ function CreatorAccount({setLoginPath, setEditNum}){
     const [filesList, setFilesList] = useState([])
     const [renderLogin, setRenderLogin] = useState(false)
     useEffect(()=>{
-        fetch("http://localhost:3000/checkLoggedIn",
+        fetch("https://svg-website.herokuapp.com/checkLoggedIn",
         {
             method: "GET",
             credentials: "include",
@@ -15,7 +15,7 @@ function CreatorAccount({setLoginPath, setEditNum}){
         .then(r=>r.json())
         .then(r=>{
             if(r){
-                fetch("http://localhost:3000/filesUser", {
+                fetch("https://svg-website.herokuapp.com/filesUser", {
                     method: "GET",
                     credentials: "include",
                 })

@@ -7,6 +7,7 @@ function Header({CurrentPlace}){
     const [imgFile, setImgFile] = useState(new File([""], "", {
         type: "image/png"
     }))
+    const [setImg, setSetImg] = useState(false)
     const [doNavigator, setDoNavigator] = useState("");
     function selectChanger(selected){
         if(selected === CurrentPlace){
@@ -17,9 +18,10 @@ function Header({CurrentPlace}){
         }
     }
     useEffect(()=>{
-        fetch(`http://localhost:3000/privateFile/${1}`).then(r=>r.json()).then(r=>{
+        fetch(`https://svg-website.herokuapp.com/privateFile/${1}`).then(r=>r.json()).then(r=>{
         const v = IntepretFile(r)
         setImgFile(v)
+        setSetImg(true)
     })
     },[])
     const interpretedImage = URL.createObjectURL(imgFile);
@@ -29,15 +31,15 @@ function Header({CurrentPlace}){
                 <option>{CurrentPlace}</option>
                 {placelist.filter(e=>!(e===CurrentPlace)).map(e=><option>{e}</option>)}
             </select>
-        </div>
-        <Link to="/login"style={{float: "Right", height:"38px", width:"38px", backgroundColor: "#664591", marginLeft: "5px", boxShadow: "inset 0px 0px 5px 0px black"}}>
+        </div>{ setImg ? 
+        <Link to="/login" className="linker">
             <img
-                style={{height: "37px", margin: ".5px", color: "transparent", backgroundColor: "transparent"}}
+                className="imaging"
                 src={interpretedImage}
                 alt="Account"
                 layout="fill"
                 // objectFit="contain"
-            /></Link>
+            /></Link> : ""}
     </div>
 }
 export default Header;

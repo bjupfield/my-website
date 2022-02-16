@@ -8,6 +8,6 @@ function Homepage({}){
         type: "image/jpg"
     }))
     // UploadPrivateFile("https://i.postimg.cc/MpcShw5s/Studio-Project.png")
-    return <div><Header CurrentPlace={"HomePage"}/>{imgFile.name}</div>
+    return <div><Header CurrentPlace={"HomePage"}/></div>
 }
 export default Homepage;

@@ -13,7 +13,7 @@ function LoginCreator({ setLoggedIn }){
         setLogins(e.value)
     }
     function create(){
-        fetch("http://localhost:3000/user",{
+        fetch("https://svg-website.herokuapp.com/user",{
             method: "POST",
             credentials: "include",
             headers: {
@@ -40,7 +40,7 @@ function LoginCreator({ setLoggedIn }){
         })
     }
     function login(){
-        fetch("http://localhost:3000/login",{
+        fetch("https://svg-website.herokuapp.com/login",{
             method: "POST",
             credentials: "include",
             headers: {

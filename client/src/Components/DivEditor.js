@@ -167,6 +167,18 @@ function DivEditor({ editNum, setEditNum }){
                     else{
                         if(lineEquat2[0] === Infinity || lineEquat2[0] === -Infinity){
                             x = parseFloat(intersectLine[0])
+                            const y = lineEquat[1] + (lineEquat[0] * intersectLine[0]);
+                            const newLine = line.map(li=>parseFloat(li));
+                            const newIntersect = intersectLine.map(li=>parseFloat(li));
+                            if(x >= (newLine[0] <= newLine[2] ? newLine[0] : newLine[2]) && x <= (newLine[0] >= newLine[2] ? newLine[0] : newLine[2])){
+                                if(y >= (newIntersect[1] <= newIntersect[3] ? newIntersect[1] : newIntersect[3]) && y <= (newIntersect[1] >= newIntersect[3] ? newIntersect[1] : newIntersect[3])){
+                                    return [true, x, slope * x + lineEquat[1]]
+                                }
+                                else{
+                                    return [false, 0, 0]
+                                }
+                            }
+                            else {return[false, 0, 0]}
                         }
                         else{
                             x = (lineEquat[1] - lineEquat2[1]) / (lineEquat2[0] - lineEquat[0]);
@@ -239,7 +251,7 @@ function DivEditor({ editNum, setEditNum }){
     let e = 1;
     useEffect(()=>{
         if(editNum !== null){
-            fetch(`http://localhost:3000/saveFile/${editNum}`)
+            fetch(`https://svg-website.herokuapp.com/saveFile/${editNum}`)
             .then(r=>r.json())
             .then(r=>{
                 const z = IntepretFile(r)
@@ -343,7 +355,7 @@ function DivEditor({ editNum, setEditNum }){
         e.arrayBuffer()
         .then(r=>{
             const view = new Uint8Array(r)
-            fetch(`http://localhost:3000/saveFile`,{
+            fetch(`https://svg-website.herokuapp.com/saveFile`,{
                 method: "POST",
                 credentials: "include",
                 headers: {
