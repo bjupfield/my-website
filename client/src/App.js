@@ -22,7 +22,7 @@ function App() {
     setWhereTo(d)
   }
   useEffect(()=>{
-    fetch(`http://localhost:3000/privateFile/${1}`).then(r=>r.json()).then(r=>{
+    fetch(`https://localhost:3000/privateFile/${1}`).then(r=>r.json()).then(r=>{
     const v = IntepretFile(r)
     setImgFile(v)
     setSetImg(true)
