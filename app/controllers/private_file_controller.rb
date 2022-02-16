@@ -9,6 +9,7 @@ class PrivateFileController < ApplicationController
         p "Here I AM"
         p params[:id]
         p "|||||||"
+        p PrivateFile.find(1);
         file = PrivateFile.find(params[:id])
         render json: file, status: 200
     end
