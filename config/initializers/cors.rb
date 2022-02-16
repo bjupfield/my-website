@@ -33,3 +33,12 @@
       credentials: true
   end
 end
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    origins 'svg-website.heokuapp.com'
+    resource '*',
+      headers: :any,
+      methods: :any,
+      credentials: true
+  end
+end
