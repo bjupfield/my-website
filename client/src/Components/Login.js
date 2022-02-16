@@ -14,7 +14,7 @@ function Login({ afterloginpath = "/homepage" }){
         setLogins(e.value)
     }
     function create(){
-        fetch("https://svg-website.herokuapp.com/user",{
+        fetch("http://localhost:3000/user",{
             method: "POST",
             credentials: "include",
             headers: {
@@ -41,7 +41,7 @@ function Login({ afterloginpath = "/homepage" }){
         })
     }
     function login(){
-        fetch("https://svg-website.herokuapp.com/login",{
+        fetch("http://localhost:3000/login",{
             method: "POST",
             credentials: "include",
             headers: {

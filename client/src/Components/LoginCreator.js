@@ -40,7 +40,7 @@ function LoginCreator({ setLoggedIn }){
         })
     }
     function login(){
-        fetch("https://svg-website.herokuapp.com/login",{
+        fetch("http://localhost:3000/login",{
             method: "POST",
             credentials: "include",
             headers: {

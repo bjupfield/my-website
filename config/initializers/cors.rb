@@ -14,16 +14,16 @@
 #       methods: [:get, :post, :put, :patch, :delete, :options, :head]
 #   end
 # end
-# Rails.application.config.middleware.insert_before 0, Rack::Cors do
-#        allow do
-#          origins "http://localhost:4000"
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+       allow do
+         origins "http://localhost:4000"
         
-#          resource "*",
-#            credentials: true,
-#            headers: :any,
-#            methods: [:get, :post, :put, :patch, :delete, :options, :head]
-#        end
-#  end
+         resource "*",
+           credentials: true,
+           headers: :any,
+           methods: [:get, :post, :put, :patch, :delete, :options, :head]
+       end
+ end
  Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins 'localhost:4000'
@@ -33,12 +33,12 @@
       credentials: true
   end
 end
-Rails.application.config.middleware.insert_before 0, Rack::Cors do
-  allow do
-    origins 'svg-website.heokuapp.com'
-    resource '*',
-      headers: :any,
-      methods: :any,
-      credentials: true
-  end
-end
+# Rails.application.config.middleware.insert_before 0, Rack::Cors do
+#   allow do
+#     origins 'svg-website.heokuapp.com'
+#     resource '*',
+#       headers: :any,
+#       methods: :any,
+#       credentials: true
+#   end
+# end
