@@ -1,4 +1,4 @@
-class CreateSaveFiles < ActiveRecord::Migration[7.0]
+class CreateSaveFiles < ActiveRecord::Migration[6.1]
   def change
     create_table :save_files do |t|
       t.binary :file_data

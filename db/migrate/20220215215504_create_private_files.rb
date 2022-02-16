@@ -1,4 +1,4 @@
-class CreatePrivateFiles < ActiveRecord::Migration[7.0]
+class CreatePrivateFiles < ActiveRecord::Migration[6.1]
   def change
     create_table :private_files do |t|
       t.binary :file_data
