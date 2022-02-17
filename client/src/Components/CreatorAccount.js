@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import CreatorAccountDisplay from "./CreatorAccountDisplay";
 import CreatorHeaders from "./CreatorHeaders";
 import { Navigate } from "react-router-dom";
-
-function CreatorAccount({setLoginPath, setEditNum}){
+import { Helmet } from "react-helmet";
+function CreatorAccount({setLoginPath, setEditNum, helm}){
     const [filesList, setFilesList] = useState([])
     const [renderLogin, setRenderLogin] = useState(false)
     useEffect(()=>{
@@ -31,6 +31,14 @@ function CreatorAccount({setLoginPath, setEditNum}){
         })
     },[])
     return renderLogin ? <Navigate to="/login"></Navigate> : <div className="overflowsetter">
+        <Helmet
+    >
+      <title>SVGs</title>
+      <link  rel="icon"
+          type="image/png"
+          href={helm}
+          sizes="16x16"></link>
+    </Helmet>
         <CreatorHeaders page={"/creator/account"}></CreatorHeaders>
         {filesList.map((elemen, ind)=><CreatorAccountDisplay file={elemen} ind={ind} setEditNum={setEditNum} length={filesList.length}></CreatorAccountDisplay>)}
     </div>

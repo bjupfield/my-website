@@ -28,12 +28,6 @@ function App() {
     setSetImg(true)
 })
 },[])
-  // useEffect(() => {
-  //   fetch("/hello")
-  //     .then((r) => r.json())
-  //     .then((data) => setCount(data.count));
-  // }, []);
-  const urlName = window.location.origin;
   const interpretedImage = URL.createObjectURL(imgFile);
   return  <div style={{height: "100vh", width: "100vw", backgroundColor: "#0f0e0f", color:"white"}}>
     <Helmet
@@ -46,15 +40,15 @@ function App() {
     </Helmet>
     <BrowserRouter>
     <Routes>
-      <Route path="/creator/tutorial" element={<CreatorTutorial></CreatorTutorial>}>
+      <Route path="/creator/tutorial" element={<CreatorTutorial helm={interpretedImage}></CreatorTutorial>}>
       </Route >
-      <Route path="/creator/account" element={<CreatorAccount setEditNum={setEditNum} setLoginPath={setLoginPath}></CreatorAccount>}>
+      <Route path="/creator/account" element={<CreatorAccount setEditNum={setEditNum} setLoginPath={setLoginPath} helm={interpretedImage}></CreatorAccount>}>
       </Route>
-      <Route path="/creator/browse" element={<CreatorBrowse setLoginPath={setLoginPath} setEditNum={setEditNum}></CreatorBrowse>}>
+      <Route path="/creator/browse" element={<CreatorBrowse setLoginPath={setLoginPath} setEditNum={setEditNum} helm={interpretedImage}></CreatorBrowse>}>
       </Route>
-      <Route path="/Creator" element={<DivEditor editNum={editNum} setEditNum={setEditNum}></DivEditor>}>
+      <Route path="/Creator" element={<DivEditor editNum={editNum} setEditNum={setEditNum} helm={interpretedImage}></DivEditor>}>
       </Route>
-      <Route path="/login" element={<Login afterloginpath={whereTo}/>}>
+      <Route path="/login" element={<Login afterloginpath={whereTo} helm={interpretedImage}/>}>
       </Route>
       <Route path="/HomePage" element={<Homepage></Homepage>}>
       </Route>
