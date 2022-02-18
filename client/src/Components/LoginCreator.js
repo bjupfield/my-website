@@ -13,7 +13,7 @@ function LoginCreator({ setLoggedIn }){
         setLogins(e.value)
     }
     function create(){
-        fetch("https://svg-website.herokuapp.com/user",{
+        fetch("http://localhost:3000/user",{
             method: "POST",
             credentials: "include",
             headers: {
