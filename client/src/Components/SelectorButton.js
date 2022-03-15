@@ -1,10 +1,13 @@
 import '../Style/divEditorToolSelector.css';
 function SelectorButton({selected, selectFunc, toSelect, smallDescrip, path}){
-    return <div className={selected ? "selectorBot2" : "selectorBot"}>
-        <div className='it' onClick={selectFunc(toSelect)}>
+    console.log(selected)
+    return <div className="selectorBot">
+        <div className={selected ? 'it' : "notit"} onClick={()=>(selectFunc(toSelect))}>
             <svg viewBox='0, 0, 50, 50'><path d={path}></path></svg>
         </div>
-        : {smallDescrip}
+        <div className="text">
+            {` ${smallDescrip}`}
+        </div>
     </div>
 }
 export default SelectorButton;

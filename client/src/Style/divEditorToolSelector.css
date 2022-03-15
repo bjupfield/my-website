@@ -3,13 +3,6 @@
     width: 90%;
     height: max(40px, 3vh);
     margin-left: 5%;
-    text-align: center;
-}
-.selectorBot2{
-    margin-top: 10px;
-    width: 90%;
-    height: max(40px, 3vh);
-    margin-left: 5%;
 }
 .it{
     height: 100%;
@@ -20,5 +13,39 @@
 .it svg path{
     fill: none;
     stroke-width: 3;
+    animation: infinite;
+    animation-duration: 7s;
+    animation-name: colorchange;
+}
+@keyframes colorchange{
+    from{
+        stroke: rgb(178, 115, 211);
+    }
+    50% {
+        stroke: purple;
+    }
+    to {
+        stroke: rgb(178, 115, 211);
+    }
+}
+.notit{
+    height: 100%;
+    width: max(40px, 3vh);
+    float: left;
+    background-color: rgb(33, 32, 41);
+}
+.notit svg path{
+    fill: none;
+    stroke-width: 3;
     stroke: purple;
+}
+.text{
+    font-size: min(1vw, 20px);
+    float: left;
+    margin-left: 5px;
+    height: min(2vw, 40px);
+    width: calc(95% - max(40px, 3vh) - 5px);
+    margin-top: calc((max(40px, 3vh) - min(40px, 2vw)) / 2);
+    text-overflow: clip;
+    overflow: hidden;
 }

@@ -390,6 +390,7 @@ function DivEditor({ editNum, setEditNum }){
     }
     const w = window.innerWidth
     const h = window.innerHeight
+    console.log(selected)
     return <div className="fullpage" onMouseMove={(e)=>onMouseMoveCall(e)} onMouseUp={()=>onMouseUpCall()}>
         <CreatorHeaders page={"/creator"}></CreatorHeaders>
         <div style={{height: "41px"}}></div>
@@ -414,6 +415,7 @@ function DivEditor({ editNum, setEditNum }){
         </div>
         <div className="sideBarSelector">
             <SelectorButton selected={selected === "boxGrab"} selectFunc={changeSelected} toSelect={"boxGrab"} smallDescrip={"BoxGrab"} path={"M0 0 L 0 50 L 50 50 L 50 0 Z M28 28 L 23 37 L 13 13 L 37 23 Z"}></SelectorButton>   
+            <SelectorButton selected={selected === "boxxy"} selectFunc={changeSelected} toSelect={"boxxy"} smallDescrip={"NotBox"} path={"M0 0 L 0 50 L 50 50 L 50 0 Z M28 28 L 23 37 L 13 13 L 37 23 Z"}/>
         </div>
         <div className="addMargin">
             <div className="inputer">
