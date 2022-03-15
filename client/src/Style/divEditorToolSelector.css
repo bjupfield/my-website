@@ -1,0 +1,24 @@
+.selectorBot{
+    margin-top: 10px;
+    width: 90%;
+    height: max(40px, 3vh);
+    margin-left: 5%;
+    text-align: center;
+}
+.selectorBot2{
+    margin-top: 10px;
+    width: 90%;
+    height: max(40px, 3vh);
+    margin-left: 5%;
+}
+.it{
+    height: 100%;
+    width: max(40px, 3vh);
+    float: left;
+    background-color: rgb(33, 32, 41);
+}
+.it svg path{
+    fill: none;
+    stroke-width: 3;
+    stroke: purple;
+}

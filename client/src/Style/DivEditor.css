@@ -93,3 +93,14 @@
     width: 100%; 
     background-color: rgba(0,0,0,0.5)
 }
+.sideBarSelector{
+    height: calc(80% - 20px);
+    width: calc(20% - 72px - 2px - 20px); /*2px is for border*/
+    position: absolute;
+    left: calc(80% + 72px + 10px);/*72px is for the creator div afterword is for stylinging purposes  */
+    top: 52px;
+    background-color: rgb(33, 32, 41);
+    border: solid 1px;
+    border-color: rgb(11, 0, 107);
+    overflow-y: auto;
+}

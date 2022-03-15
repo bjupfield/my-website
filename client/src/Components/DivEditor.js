@@ -6,6 +6,7 @@ import CreatorHeaders from "./CreatorHeaders";
 import DownloadFileButton from "./DownloadFileButton";
 import LoginCreator from "./LoginCreator";
 import SaveButton from "./SaveButton";
+import SelectorButton from "./SelectorButton";
 function DivEditor({ editNum, setEditNum }){
     const [mouseDownPos, setMouseDownPos] = useState([]);
     const [clientBorder, setClientBorder] = useState([]);
@@ -21,7 +22,11 @@ function DivEditor({ editNum, setEditNum }){
     const [file, setFile] = useState(new File([], ""));
     const [needLogin, setNeedLogin] = useState(false)
     const [editNum2, setEditNum2] = useState(null)
+    const [selected, setSelected] = useState("");
     const observer = useRef(null)
+    function changeSelected(stringPath){
+        setSelected(stringPath);
+    }
     function resizePathTrue(path, x, y, vx, vy){
         const test = path.split("L");
         const line = test.map((line)=>{
@@ -406,6 +411,9 @@ function DivEditor({ editNum, setEditNum }){
                 return <div className={ind === parseFloat(pointId)? "adjusting" : "adjustor"} id={`${ind}`} style={{position:"absolute", top:`${(parseFloat(f[2]) / viewBoxStuff[1]) * h * .8 + 39.5}px`, left:`${(parseFloat(f[1]) / viewBoxStuff[0]) * w * .8 + 67.5}px`, height:"10px", width:"10px"}}
                 onMouseDown={(e)=>onMouseDownAdjustor(e)} ><svg viewBox="0, 0, 12, 12"><circle cx="5" cy="5" r="5"></circle></svg></div>
             })}
+        </div>
+        <div className="sideBarSelector">
+            <SelectorButton selected={selected === "boxGrab"} selectFunc={changeSelected} toSelect={"boxGrab"} smallDescrip={"BoxGrab"} path={"M0 0 L 0 50 L 50 50 L 50 0 Z M28 28 L 23 37 L 13 13 L 37 23 Z"}></SelectorButton>   
         </div>
         <div className="addMargin">
             <div className="inputer">
