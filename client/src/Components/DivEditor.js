@@ -30,6 +30,7 @@ function DivEditor({ editNum, setEditNum }){
     const [eventListenerAdded, setEventListenerAdded] = useState(false);
     const [keyPress, setKeyPress] = useState("");
     const [usingAdjustor, setUsingAdjustor] = useState(false);
+    const [shift, setShift] = useState(false)
     let newPathD = "";
     function changeSelected(stringPath){
         setSelected(stringPath);
@@ -53,12 +54,17 @@ function DivEditor({ editNum, setEditNum }){
         }
     }
     function newOnMouseUp(e){
-        console.log(usingAdjustor)
+        console.log(`${usingAdjustor} || ${shift}`)
         if(firstMouseDown !== currMouseDown){
             switch(selected){
                 case "boxGrab":
                     if(usingAdjustor){
-                        setPointId([]);
+                        if(!shift){
+                            setPointId([]);
+                        }
+                        else{
+                            console.log("plz")
+                        }
                     }
                     else{
                         BoxGrab(firstMouseDown, currMouseDown, points, setPointId);
@@ -69,8 +75,26 @@ function DivEditor({ editNum, setEditNum }){
                     setPoints(newTruePath);
                     setPathTrue(newTruePath.join(" "));
                     break;
+                case "extrude":
+                    if(usingAdjustor){
+                        if(!shift){
+                            setPointId([]);
+                        }
+                        else{
+                            console.log("plz")
+                        }
+                    }
+                    else{
+                        setPointId([])
+                    }
+                    break;
                 case "":
-                    setPointId([]);
+                    if(!shift){
+                        setPointId([]);
+                    }
+                    else{
+                        console.log("plz")
+                    }
                     break;
             }
         }
@@ -211,7 +235,21 @@ function DivEditor({ editNum, setEditNum }){
         }
         const client = document.querySelector("#absolute").getBoundingClientRect();
         // setClientBorder([client.width, client.height, client.x, client.y]);
-        setPointId([c.id])
+        if(!shift){
+            setPointId([c.id])
+        }
+        else{
+            if(pointId.find(x=>x===c.id)!==undefined){
+                console.log("already selected")
+                const newDealings = pointId.filter(x=>x!==c.id)
+                setPointId(newDealings)
+            }
+            else{
+                const newDealings = pointId;
+                newDealings.push(c.id)
+                setPointId(newDealings)
+            }
+        }
         setDoMovePoint(true)
         setUsingAdjustor(true);
     }
@@ -269,14 +307,19 @@ function DivEditor({ editNum, setEditNum }){
                 setKeyPress("g");
                 setDoMovePoint(true)
                 break;
+            case "Shift":
+                setShift(true);
+                break;
         }
     }
     function logdKey(e){
-        console.log(e)
         switch(e.key){
             case "g":
                 setKeyPress("")
                 setDoMovePoint(false)
+                break;
+            case "Shift":
+                setShift(false);
                 break;
         }
     }
@@ -311,6 +354,7 @@ function DivEditor({ editNum, setEditNum }){
         <div className="sideBarSelector">
             <SelectorButton selected={selected === "boxGrab"} selectFunc={changeSelected} toSelect={"boxGrab"} smallDescrip={"BoxGrab"} path={"M0 0 L 0 50 L 50 50 L 50 0 Z M28 28 L 23 37 L 13 13 L 37 23 Z"}></SelectorButton>   
             <SelectorButton selected={selected === "cutTool"} selectFunc={changeSelected} toSelect={"cutTool"} smallDescrip={"CutTool"} path={"M0 0 L 50 0 L 50 50 L 0 50 Z M10 10 L 15 10 L 30 25 L 27 27 Z M30 25 L 40 25 L 5 25 L 10 30 L 30 30 L  25 25 L 35 35"}/>
+            <SelectorButton selected={selected === "extrude"} selectFunc={changeSelected} toSelect={"extrude"} smallDescrip={"Extrude"} path={"M0 0 L 0 50 L 50 50 L 50 0 Z"}/>
         </div>
         <div className="addMargin">
             <div className="inputer">
