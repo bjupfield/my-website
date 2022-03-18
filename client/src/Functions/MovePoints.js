@@ -7,22 +7,22 @@ function MovePoints(pathTrue, points, x, y){
             }
                 return true;
         });
-        const c = ind === parseFloat(points) ? true : false;
+        const d = points.find(x=>parseFloat(x) === ind) !== undefined ? true: false;
         switch(lineTest.length){
             case 2:
-                const a = c ? x.toString() : lineTest[0];
-                const b = c ? y.toString() : lineTest[1];
+                const a = d ? (x + parseFloat(lineTest[0])).toString() : lineTest[0];
+                const b = d ? (y + parseFloat(lineTest[1])).toString() : lineTest[1];
                 lineTest = ["L", a, b];
                 break;
             case 3:
                 if(lineTest[0] === "M"){
-                    const a = c ? x.toString() : lineTest[1];
-                    const b = c ? y.toString() : lineTest[2];
+                    const a = d ? (x + parseFloat(lineTest[1])).toString() : lineTest[1];
+                    const b = d ? (y + parseFloat(lineTest[2])).toString() : lineTest[2];
                     lineTest = ["M", a, b]
                 }
                 else{
-                    const a = c ? x.toString() : lineTest[0];
-                    const b = c ? y.toString() : lineTest[1];
+                    const a = d ? (x + parseFloat(lineTest[0])).toString() : lineTest[0];
+                    const b = d ? (y + parseFloat(lineTest[1])).toString() : lineTest[1];
                     lineTest = ["L", a, b, "z"]
                 }
                 break;

@@ -9,10 +9,11 @@ import LoginCreator from "./LoginCreator";
 import SaveButton from "./SaveButton";
 import SelectorButton from "./SelectorButton";
 import MovePoints from "../Functions/MovePoints";
+import BoxGrab from "../Functions/BoxGrab";
 function DivEditor({ editNum, setEditNum }){
     const [pathTrue, setPathTrue] = useState("M 25 25 L 75 25 L 75 75 L 25 75 z")
     const [points, setPoints] = useState([])
-    const [pointId, setPointId] = useState(null);
+    const [pointId, setPointId] = useState([]);
     const [viewBoxStuff, setViewBoxStuff] = useState([100, 100]);
     const [svgName, setSvgName] = useState("");
     const [svgColor, setSvgColor] = useState("");
@@ -25,6 +26,10 @@ function DivEditor({ editNum, setEditNum }){
     const observer = useRef(null)
     const [firstMouseDown, setFirstMouseDown] = useState([]);
     const [currMouseDown, setCurrMouseDown] = useState([]);
+    const [doMovePoint, setDoMovePoint] = useState(false);
+    const [eventListenerAdded, setEventListenerAdded] = useState(false);
+    const [keyPress, setKeyPress] = useState("");
+    const [usingAdjustor, setUsingAdjustor] = useState(false);
     let newPathD = "";
     function changeSelected(stringPath){
         setSelected(stringPath);
@@ -41,17 +46,23 @@ function DivEditor({ editNum, setEditNum }){
         const x = e.clientX - d.x;
         const y = e.clientY - d.y;
         setCurrMouseDown([x, y]);
-        if(pointId){
-            const line = MovePoints(pathTrue, pointId, x, y)
+        if(doMovePoint){
+            const line = MovePoints(pathTrue, pointId, e.movementX, e.movementY)
             setPoints(line)
             setPathTrue(line.join(" "))
         }
     }
     function newOnMouseUp(e){
+        console.log(usingAdjustor)
         if(firstMouseDown !== currMouseDown){
             switch(selected){
                 case "boxGrab":
-                    
+                    if(usingAdjustor){
+                        setPointId([]);
+                    }
+                    else{
+                        BoxGrab(firstMouseDown, currMouseDown, points, setPointId);
+                    }
                     break;
                 case "cutTool":
                     const newTruePath = CutTool(newPathD, pathTrue, points);
@@ -59,11 +70,13 @@ function DivEditor({ editNum, setEditNum }){
                     setPathTrue(newTruePath.join(" "));
                     break;
                 case "":
+                    setPointId([]);
                     break;
             }
         }
+        setUsingAdjustor(false);
+        setDoMovePoint(false);
         setFirstMouseDown(null);
-        setPointId(null);
         setCurrMouseDown(null);
     }
     function onToolReload(){
@@ -198,7 +211,9 @@ function DivEditor({ editNum, setEditNum }){
         }
         const client = document.querySelector("#absolute").getBoundingClientRect();
         // setClientBorder([client.width, client.height, client.x, client.y]);
-        setPointId(c.id)
+        setPointId([c.id])
+        setDoMovePoint(true)
+        setUsingAdjustor(true);
     }
     function onButtonClick(e){
         onUploadSvg();
@@ -248,6 +263,28 @@ function DivEditor({ editNum, setEditNum }){
     }
     const w = window.innerWidth
     const h = window.innerHeight
+    function logKey(e){
+        switch(e.key){
+            case "g":
+                setKeyPress("g");
+                setDoMovePoint(true)
+                break;
+        }
+    }
+    function logdKey(e){
+        console.log(e)
+        switch(e.key){
+            case "g":
+                setKeyPress("")
+                setDoMovePoint(false)
+                break;
+        }
+    }
+    if(!eventListenerAdded){
+        document.addEventListener('keydown', logKey)
+        document.addEventListener("keyup", logdKey)
+        setEventListenerAdded(true);
+    }
     onToolReload();
     return <div className="fullpage" onMouseMove={(e)=>newOnMouseMove(e)} onMouseUp={()=>newOnMouseUp()}>
         <CreatorHeaders page={"/creator"}></CreatorHeaders>
@@ -264,10 +301,10 @@ function DivEditor({ editNum, setEditNum }){
             {points.map((point, ind)=>{
                 const f = point.split(" ");
                 if(f[2] === "z"){
-                    return <div className={ind === parseFloat(pointId)? "adjusting" : "adjustor"} id={`${ind}`} style={{position:"absolute", top:`${(parseFloat(f[1]) / viewBoxStuff[1]) * h * .8 + 39.5}px`, left:`${(parseFloat(f[0]) / viewBoxStuff[0]) * w * .8 + 67.5}px`, height:"10px", width:"10px"}}
+                    return <div className={pointId.find(x=>parseFloat(x) === ind) !== undefined ? "adjusting" : "adjustor"} id={`${ind}`} style={{position:"absolute", top:`${(parseFloat(f[1]) / viewBoxStuff[1]) * h * .8 + 39.5}px`, left:`${(parseFloat(f[0]) / viewBoxStuff[0]) * w * .8 + 67.5}px`, height:"10px", width:"10px"}}
                     onMouseDown={(e)=>onMouseDownAdjustor(e)} ><svg viewBox="0, 0, 12, 12"><circle cx={5} cy={5} r={5}></circle></svg></div>
                 }
-                return <div className={ind === parseFloat(pointId)? "adjusting" : "adjustor"} id={`${ind}`} style={{position:"absolute", top:`${(parseFloat(f[2]) / viewBoxStuff[1]) * h * .8 + 39.5}px`, left:`${(parseFloat(f[1]) / viewBoxStuff[0]) * w * .8 + 67.5}px`, height:"10px", width:"10px"}}
+                return <div className={pointId.find(x=>parseFloat(x) === ind) !== undefined ? "adjusting" : "adjustor"} id={`${ind}`} style={{position:"absolute", top:`${(parseFloat(f[2]) / viewBoxStuff[1]) * h * .8 + 39.5}px`, left:`${(parseFloat(f[1]) / viewBoxStuff[0]) * w * .8 + 67.5}px`, height:"10px", width:"10px"}}
                 onMouseDown={(e)=>onMouseDownAdjustor(e)} ><svg viewBox="0, 0, 12, 12"><circle cx="5" cy="5" r="5"></circle></svg></div>
             })}
         </div>
