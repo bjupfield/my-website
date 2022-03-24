@@ -18,8 +18,8 @@ function DivEditor({ editNum, setEditNum }){
     const [viewBoxStuff, setViewBoxStuff] = useState([100, 100]);
     const [svgName, setSvgName] = useState("");
     const [svgColor, setSvgColor] = useState("");
-    const [svgLineThickness, setSvgLineThickness] = useState(0)
-    const [svgStrokeColor, setSvgStrokeColor] = useState("")
+    const [svgLineThickness, setSvgLineThickness] = useState(3)
+    const [svgStrokeColor, setSvgStrokeColor] = useState("red")
     const [file, setFile] = useState(new File([], ""));
     const [needLogin, setNeedLogin] = useState(false)
     const [editNum2, setEditNum2] = useState(null)
@@ -55,7 +55,7 @@ function DivEditor({ editNum, setEditNum }){
         }
     }
     function newOnMouseUp(e){
-        console.log(`${usingAdjustor} || ${shift}`)
+        // console.log(`${usingAdjustor} || ${shift}`)
         if(firstMouseDown !== currMouseDown){
             switch(selected){
                 case "boxGrab":
@@ -82,7 +82,7 @@ function DivEditor({ editNum, setEditNum }){
                             setPointId([]);
                         }
                         else{
-                            console.log("plz")
+                            // console.log("plz")
                         }
                     }
                     else{

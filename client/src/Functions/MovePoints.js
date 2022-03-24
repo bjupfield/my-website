@@ -9,7 +9,7 @@ function MovePoints(pathTrue, points, x, y){
     })
     const test3 = test2.map(x=>{
         const b = x.split(/l/).map(x=>{
-            if(!x.match(/M|B|C|L|c|b|z/)){
+            if(!x.match(/M|B|C|L|c|b/)){
                 return "l" + x
             }
             else{
@@ -24,6 +24,7 @@ function MovePoints(pathTrue, points, x, y){
             test4.push(x)
         })
     })
+    console.log(test4)
     const line = test4.map((line, ind)=>{
         let lineTest = line.split(" ").filter((element)=>{
             if(element === ""){
@@ -45,40 +46,90 @@ function MovePoints(pathTrue, points, x, y){
                 {
                     let a = parseFloat(lineTest[1])
                     let b = parseFloat(lineTest[2])
-                    let before = test4[ind - 1];
+                    // console.log(`X: ${a} || Y: ${b}`)
+                    let before = test4[ind - 1].split(" ").filter((element)=>{
+                        if(element === ""){
+                            return false;
+                        }
+                            return true;
+                    });;
                     if(before[0] === "l"){
                         let currInd = ind - 1;
                         let beforeX = parseFloat(before[1]);
                         let beforeY = parseFloat(before[2]);
+                        // console.log(beforeX + "|||||||||||||||||||||||")
                         while(before[0] === "l"){
                             currInd -= 1;
-                            before = test4[currInd]
+                            before = test4[currInd].split(" ").filter((element)=>{
+                                if(element === ""){
+                                    return false;
+                                }
+                                    return true;
+                            });;
                             beforeX += parseFloat(before[1])
                             beforeY += parseFloat(before[2])
+                            // console.log(beforeX + "|||||||||||||||||")
                         }
+                        // console.log("In while loop section |||||" + before + " |||| beforeX :" + beforeX + "|||| beforeY: " + beforeY)
                         before = test4.findIndex(x=>{
-                            if(x[1] === beforeX && x[2] === beforeY){
+                            const d = x.split(" ").filter((element)=>{
+                                if(element === ""){
+                                    return false;
+                                }
+                                    return true;
+                            });
+                            // console.log(`X: ${beforeX} || Y: ${beforeY}`)
+                            // console.log(`X: ${d[1]} || Y: ${d[2]}`)
+                            if(parseFloat(d[1]) === beforeX && parseFloat(d[2]) === beforeY){
+                                console.log("found: " + x)
                                 return true;
                             }
                             return false;
                         })
                     }
                     const onTop = test4.findIndex(x=>{
-                        const xTotal = before[1] + a;
-                        const yTotal = before[1] + b;
-                        if(x[1] === xTotal && x[2] === yTotal){
+                        const d = x.split(" ").filter((element)=>{
+                            if(element === ""){
+                                return false;
+                            }
+                                return true;
+                        });
+                        // console.log(`XTotal Before[1]: ${test4[before]}`)
+                        let possibleCheck;
+                        if(before.length === undefined){
+                            console.log('here')
+                            console.log(before)
+                            console.log(test4[before])
+                            possibleCheck = test4[before].split(" ").filter((element)=>{
+                                if(element === ""){
+                                    return false;
+                                }
+                                    return true;
+                            });
+                        }
+                        const xTotal = before.length !== undefined ? parseFloat(before[1]) + a : parseFloat(possibleCheck[1]) + a;
+                        const yTotal = before.length !== undefined ? parseFloat(before[2]) + b: parseFloat(possibleCheck[2]) + b;
+                        // console.log(`X: ${xTotal} || Y: ${yTotal}`)
+                        // console.log(`X: ${d[1]} || Y: ${d[2]}`)
+                        // console.log(`Before Plus X Result ${parseFloat(before[1]) + a}`)
+                        if(parseFloat(d[1]) === xTotal && parseFloat(d[2]) === yTotal){
+                            // console.log("GREAT SUCCESS ||||||||||||||||||||||||||||||")
                             return true;
                         }
                         return false;
                     })
-                    if(points.find(x=>x === before) !== undefined){
-                        a -= before[1];
-                        b -= before[2]
+                    if(points.find(x=>parseFloat(x) === (before.length > 1 ? ind - 1 : before)) !== undefined){
+                        // console.log(points.find(x=>parseFloat(x) === (before.length > 1 ? ind - 1 : before)))
+                        // console.log(ind)
+                        a -= x;
+                        b -= y;
                     }
-                    if(points.find(x=>x === onTop) !== undefined){
-                        a += onTop[1];
-                        b -= onTop[2];
+                    if(points.find(x=>parseFloat(x) === onTop) !== undefined){
+                        console.log("or here")
+                        a += x;
+                        b += y;
                     }
+                    console.log("does thistrigger")
                     lineTest = ["l", a.toString(), b.toString()]
                 }
                 break;
@@ -90,12 +141,14 @@ function MovePoints(pathTrue, points, x, y){
                 }
                 break;
             }
-        if(test4[ind].length === 4){
+        if(line.includes("z")){
+            console.log(line)
+            console.log(lineTest)
             lineTest.push("z")
         }
         return lineTest.join(" ")
     })
-    console.log('reset')
+    // console.log('reset')
     return line;
 }
 export default MovePoints;
