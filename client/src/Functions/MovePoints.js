@@ -43,7 +43,43 @@ function MovePoints(pathTrue, points, x, y){
                 break;
             case "l": 
                 {
-                    lineTest = ["l", lineTest[1], lineTest[3]]
+                    let a = parseFloat(lineTest[1])
+                    let b = parseFloat(lineTest[2])
+                    let before = test4[ind - 1];
+                    if(before[0] === "l"){
+                        let currInd = ind - 1;
+                        let beforeX = parseFloat(before[1]);
+                        let beforeY = parseFloat(before[2]);
+                        while(before[0] === "l"){
+                            currInd -= 1;
+                            before = test4[currInd]
+                            beforeX += parseFloat(before[1])
+                            beforeY += parseFloat(before[2])
+                        }
+                        before = test4.findIndex(x=>{
+                            if(x[1] === beforeX && x[2] === beforeY){
+                                return true;
+                            }
+                            return false;
+                        })
+                    }
+                    const onTop = test4.findIndex(x=>{
+                        const xTotal = before[1] + a;
+                        const yTotal = before[1] + b;
+                        if(x[1] === xTotal && x[2] === yTotal){
+                            return true;
+                        }
+                        return false;
+                    })
+                    if(points.find(x=>x === before) !== undefined){
+                        a -= before[1];
+                        b -= before[2]
+                    }
+                    if(points.find(x=>x === onTop) !== undefined){
+                        a += onTop[1];
+                        b -= onTop[2];
+                    }
+                    lineTest = ["l", a.toString(), b.toString()]
                 }
                 break;
             case "M":
@@ -54,12 +90,12 @@ function MovePoints(pathTrue, points, x, y){
                 }
                 break;
             }
-        if(lineTest.length === 4){
+        if(test4[ind].length === 4){
             lineTest.push("z")
         }
         return lineTest.join(" ")
     })
-    console.log(line)
+    console.log('reset')
     return line;
 }
 export default MovePoints;

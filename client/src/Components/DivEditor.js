@@ -10,6 +10,7 @@ import SaveButton from "./SaveButton";
 import SelectorButton from "./SelectorButton";
 import MovePoints from "../Functions/MovePoints";
 import BoxGrab from "../Functions/BoxGrab";
+import ExtrudeTool from "../Functions/ExtrudeToolImLazy";
 function DivEditor({ editNum, setEditNum }){
     const [pathTrue, setPathTrue] = useState("M 25 25 L 75 25 L 75 75 L 25 75 z")
     const [points, setPoints] = useState([])
@@ -85,6 +86,7 @@ function DivEditor({ editNum, setEditNum }){
                         }
                     }
                     else{
+                        ExtrudeTool(currMouseDown[0], currMouseDown[1], points, pointId, setPointId, pathTrue, setPathTrue, setPoints);
                         setPointId([])
                     }
                     break;
@@ -346,6 +348,9 @@ function DivEditor({ editNum, setEditNum }){
                 if(f[2] === "z"){
                     return <div className={pointId.find(x=>parseFloat(x) === ind) !== undefined ? "adjusting" : "adjustor"} id={`${ind}`} style={{position:"absolute", top:`${(parseFloat(f[1]) / viewBoxStuff[1]) * h * .8 + 39.5}px`, left:`${(parseFloat(f[0]) / viewBoxStuff[0]) * w * .8 + 67.5}px`, height:"10px", width:"10px"}}
                     onMouseDown={(e)=>onMouseDownAdjustor(e)} ><svg viewBox="0, 0, 12, 12"><circle cx={5} cy={5} r={5}></circle></svg></div>
+                }
+                if(f[0] === "l"){
+                    return ""
                 }
                 return <div className={pointId.find(x=>parseFloat(x) === ind) !== undefined ? "adjusting" : "adjustor"} id={`${ind}`} style={{position:"absolute", top:`${(parseFloat(f[2]) / viewBoxStuff[1]) * h * .8 + 39.5}px`, left:`${(parseFloat(f[1]) / viewBoxStuff[0]) * w * .8 + 67.5}px`, height:"10px", width:"10px"}}
                 onMouseDown={(e)=>onMouseDownAdjustor(e)} ><svg viewBox="0, 0, 12, 12"><circle cx="5" cy="5" r="5"></circle></svg></div>
