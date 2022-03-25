@@ -7,6 +7,37 @@ function CutTool(pathD, pathTrue, points){
     console.log(line);
     console.log(parseFloat(line[0]))
     console.log(slope)
+    let newTruePath = pathTrue.split("L").map(path=>path.split(" ").filter(b=>b !== ""));
+    newTruePath = newTruePath.map(x=>{
+        if(x[0] !== ("M" || "L")){
+            const b = x;
+            b.unshift("L")
+            return b;
+        }
+        return x;
+    })
+    for(let x = 0; x < newTruePath.length; x++){
+        const point = newTruePath[x];
+        // console.log(newTruePath.length)
+        // console.log(point);
+        if(point.includes("l") && point[0] !== "l"){
+            console.log(point);
+            const c = point.join(" ").split("l").map(x=>{
+                const c = x.split(" ").filter(b=>b!== "")
+                console.log(c)
+                if(c.length < 3 || (!c.includes(/[L|B|C|]/) && c.includes("z"))){
+                    const b = c;
+                    b.unshift("l")
+                    return b;
+                }
+                else{
+                    return c;
+                }
+            })
+            newTruePath.splice(x, 1, ...c)
+        }
+    }
+    console.log(newTruePath)
     const lines = pathTrue.split("L").map(point=>{
         const b = point.split(" ").filter(factor =>{
             if(factor === ""){
@@ -16,6 +47,7 @@ function CutTool(pathD, pathTrue, points){
         })
         return b
     })
+    console.log(lines)
     const pointIntersect = lines.map((point, ind) =>{
         const secondPoint = lines[ind + 1];
         let intersectLine = [];
