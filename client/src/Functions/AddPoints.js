@@ -42,6 +42,7 @@ function AddPoints(points, pathTrue){
         }
         return path.join(" ")
     })
+    console.log(newTruePath)
     return newTruePath
 }
 export default AddPoints;
